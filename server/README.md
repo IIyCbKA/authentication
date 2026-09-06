@@ -1,4 +1,4 @@
-# Django Rest Framework Server for Authentification Server
+# Django Rest Framework Server for Authentification
 
 ## 1. Installation and setup
 
