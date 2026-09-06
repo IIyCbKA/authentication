@@ -8,9 +8,9 @@ from rest_framework.exceptions import AuthenticationFailed, PermissionDenied
 
 from ..constants import USERNAME_MAX_LENGTH
 from ..exceptions import (
-    UsernameAlreadyTakenError,
-    UsernameChangeLimitExceeded,
-    UsernameInvalidError,
+  UsernameAlreadyTakenError,
+  UsernameChangeLimitExceeded,
+  UsernameInvalidError,
 )
 from ..identifiers import lock_identifiers
 from ..models import CustomUser, UsernameChange
@@ -21,19 +21,23 @@ class UsernameService:
     with transaction.atomic():
       locked_user = CustomUser.objects.select_for_update().filter(pk=user.pk).first()
       if locked_user is None or not locked_user.is_active:
-        raise AuthenticationFailed('Account session is no longer valid')
+        raise AuthenticationFailed("Account session is no longer valid")
 
       if locked_user.email and not locked_user.is_email_verified:
-        raise PermissionDenied('Email verification is required')
+        raise PermissionDenied("Email verification is required")
 
       if new_username is None or locked_user.username == new_username:
         return locked_user
 
       with lock_identifiers(new_username):
         self._validate_syntax(new_username)
-        if CustomUser.objects.filter(
-          Q(username__iexact=new_username) | Q(email__iexact=new_username)
-        ).exclude(pk=locked_user.pk).exists():
+        if (
+          CustomUser.objects.filter(
+            Q(username__iexact=new_username) | Q(email__iexact=new_username)
+          )
+          .exclude(pk=locked_user.pk)
+          .exists()
+        ):
           raise UsernameAlreadyTakenError()
 
         self._ensure_quota_available(locked_user)
@@ -57,7 +61,7 @@ class UsernameService:
   def _validate_syntax(username: str) -> None:
     if len(username) > USERNAME_MAX_LENGTH:
       raise UsernameInvalidError(
-        f'Ensure this field has no more than {USERNAME_MAX_LENGTH} characters'
+        f"Ensure this field has no more than {USERNAME_MAX_LENGTH} characters"
       )
 
     try:

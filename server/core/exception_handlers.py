@@ -5,32 +5,32 @@ from rest_framework.response import Response
 
 import re
 
-TRAILING_PUNCT_PATTERN = getattr(settings, 'TRAILING_PUNCT_PATTERN', r'[.!?…]+$')
+TRAILING_PUNCT_PATTERN = getattr(settings, "TRAILING_PUNCT_PATTERN", r"[.!?…]+$")
 _TRAILING_PUNCT_RE = re.compile(TRAILING_PUNCT_PATTERN)
-_ERROR_DETAIL_KEY = getattr(settings, 'ERROR_DETAIL_KEY', 'detail')
+_ERROR_DETAIL_KEY = getattr(settings, "ERROR_DETAIL_KEY", "detail")
 
 
 def normalize_msg(text: object) -> str:
   if text is None:
-    return ''
+    return ""
 
   text = str(text).strip()
   if not text:
-    return ''
+    return ""
 
-  return _TRAILING_PUNCT_RE.sub('', text)
+  return _TRAILING_PUNCT_RE.sub("", text)
 
 
 def _first_error(data) -> str:
   if isinstance(data, (list, tuple)):
     if not data:
-      return ''
+      return ""
     return _first_error(data[0])
 
   if isinstance(data, dict):
     for value in data.values():
       return _first_error(value)
-    return ''
+    return ""
 
   return str(data)
 

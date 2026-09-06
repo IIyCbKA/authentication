@@ -53,14 +53,14 @@ class RegisterView(AuthResponseMixin, GenericAPIView):
   throttle_scope = "register"
 
   def post(self, request) -> Response:
-      serializer = self.get_serializer(data=request.data)
-      serializer.is_valid(raise_exception=True)
-      cookie_service = self.cookie_service_class()
-      session = self.service_class().register(
-        serializer.validated_data,
-        current_refresh=cookie_service.read(request),
-      )
-      return self.auth_response(session, status.HTTP_201_CREATED)
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    cookie_service = self.cookie_service_class()
+    session = self.service_class().register(
+      serializer.validated_data,
+      current_refresh=cookie_service.read(request),
+    )
+    return self.auth_response(session, status.HTTP_201_CREATED)
 
 
 class EmailConfirmView(AuthResponseMixin, GenericAPIView):

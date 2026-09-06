@@ -8,9 +8,9 @@ from authentication.permissions import HasAllowedOrigin, IsVerifiedOrEmailLess
 from authentication.services.tokens import CookieService
 
 from ..serializers import (
-    UpdateUsernameSerializer,
-    UsernameUpdateResponseSerializer,
-    UserReadSerializer,
+  UpdateUsernameSerializer,
+  UsernameUpdateResponseSerializer,
+  UserReadSerializer,
 )
 from ..services import AccountService
 

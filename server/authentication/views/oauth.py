@@ -10,6 +10,7 @@ from ..permissions import HasAllowedOrigin, IsVerifiedOrEmailLess
 from ..services.oauth import FLOW_LINK, OAuthService
 from ..services import CookieService, TokenService
 
+
 class OAuthStartView(APIView):
   permission_classes = [AllowAny]
   service_class = OAuthService
@@ -31,13 +32,14 @@ class OAuthStartView(APIView):
     authorize_url = self.service_class().build_authorization_url(provider, request)
     return Response(status=status.HTTP_302_FOUND, headers={"Location": authorize_url})
 
-
   def post(self, request: Request, provider: str | None = None) -> Response:
     if request.query_params.get("flow") != FLOW_LINK:
       raise OAuthStateError("POST OAuth start is reserved for link flow")
 
     authorize_url = self.service_class().build_authorization_url(provider, request)
-    return Response(data={"authorization_url": authorize_url}, status=status.HTTP_200_OK)
+    return Response(
+      data={"authorization_url": authorize_url}, status=status.HTTP_200_OK
+    )
 
 
 class OAuthCallbackView(APIView):
@@ -45,7 +47,6 @@ class OAuthCallbackView(APIView):
   permission_classes = [AllowAny]
   service_class = OAuthService
   throttle_scope = "oauth_callback"
-
 
   def get(self, request: Request, provider: str | None = None) -> Response:
     result = self.service_class().complete(provider, request)

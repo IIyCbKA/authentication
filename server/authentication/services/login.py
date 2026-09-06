@@ -43,7 +43,9 @@ class LoginService:
       lock_ids = sorted({candidate.pk, owner_id} - {None})
       locked_users = {
         user.pk: user
-        for user in User.objects.select_for_update().filter(pk__in=lock_ids).order_by("pk")
+        for user in User.objects.select_for_update()
+        .filter(pk__in=lock_ids)
+        .order_by("pk")
       }
 
       user = locked_users.get(candidate.pk)

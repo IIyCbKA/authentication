@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class UsernameChangeError(Exception):
   """Base exception for username profile invariants."""
 
@@ -17,4 +18,4 @@ class UsernameInvalidError(UsernameChangeError):
 class UsernameChangeLimitExceeded(UsernameChangeError):
   def __init__(self, next_allowed_at: datetime):
     self.next_allowed_at = next_allowed_at
-    super().__init__(f'Username change limit reached until {next_allowed_at!s}')
+    super().__init__(f"Username change limit reached until {next_allowed_at!s}")

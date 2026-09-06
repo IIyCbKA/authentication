@@ -10,105 +10,261 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+  initial = True
 
-    initial = True
+  dependencies = [
+    ("auth", "0012_alter_user_first_name_max_length"),
+  ]
 
-    dependencies = [
-        ('auth', '0012_alter_user_first_name_max_length'),
-    ]
-
-    operations = [
-        migrations.CreateModel(
-            name='Device',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('device_id', models.CharField(db_index=True, max_length=64, unique=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('last_seen', models.DateTimeField(db_index=True, default=django.utils.timezone.now)),
-                ('last_ip', models.GenericIPAddressField(blank=True, null=True)),
-                ('user_agent', models.TextField(blank=True, null=True)),
-                ('language', models.CharField(blank=True, max_length=64, null=True)),
-                ('screen', models.CharField(blank=True, max_length=64, null=True)),
-                ('logical_processors', models.IntegerField(blank=True, null=True)),
-                ('approx_memory', models.IntegerField(blank=True, null=True)),
-                ('cookies_enabled', models.BooleanField(blank=True, null=True)),
-                ('platform', models.CharField(blank=True, max_length=128, null=True)),
-                ('timezone', models.CharField(blank=True, max_length=64, null=True)),
+  operations = [
+    migrations.CreateModel(
+      name="Device",
+      fields=[
+        (
+          "id",
+          models.BigAutoField(
+            auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+          ),
+        ),
+        ("device_id", models.CharField(db_index=True, max_length=64, unique=True)),
+        ("created_at", models.DateTimeField(auto_now_add=True)),
+        (
+          "last_seen",
+          models.DateTimeField(db_index=True, default=django.utils.timezone.now),
+        ),
+        ("last_ip", models.GenericIPAddressField(blank=True, null=True)),
+        ("user_agent", models.TextField(blank=True, null=True)),
+        ("language", models.CharField(blank=True, max_length=64, null=True)),
+        ("screen", models.CharField(blank=True, max_length=64, null=True)),
+        ("logical_processors", models.IntegerField(blank=True, null=True)),
+        ("approx_memory", models.IntegerField(blank=True, null=True)),
+        ("cookies_enabled", models.BooleanField(blank=True, null=True)),
+        ("platform", models.CharField(blank=True, max_length=128, null=True)),
+        ("timezone", models.CharField(blank=True, max_length=64, null=True)),
+      ],
+    ),
+    migrations.CreateModel(
+      name="CustomUser",
+      fields=[
+        (
+          "id",
+          models.BigAutoField(
+            auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+          ),
+        ),
+        ("password", models.CharField(max_length=128, verbose_name="password")),
+        (
+          "last_login",
+          models.DateTimeField(blank=True, null=True, verbose_name="last login"),
+        ),
+        (
+          "is_superuser",
+          models.BooleanField(
+            default=False,
+            help_text="Designates that this user has all permissions without explicitly assigning them.",
+            verbose_name="superuser status",
+          ),
+        ),
+        (
+          "username",
+          models.CharField(
+            error_messages={"unique": "A user with that username already exists."},
+            help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+            max_length=150,
+            unique=True,
+            validators=[django.contrib.auth.validators.UnicodeUsernameValidator()],
+            verbose_name="username",
+          ),
+        ),
+        (
+          "first_name",
+          models.CharField(blank=True, max_length=150, verbose_name="first name"),
+        ),
+        (
+          "last_name",
+          models.CharField(blank=True, max_length=150, verbose_name="last name"),
+        ),
+        (
+          "is_staff",
+          models.BooleanField(
+            default=False,
+            help_text="Designates whether the user can log into this admin site.",
+            verbose_name="staff status",
+          ),
+        ),
+        (
+          "is_active",
+          models.BooleanField(
+            default=True,
+            help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
+            verbose_name="active",
+          ),
+        ),
+        (
+          "date_joined",
+          models.DateTimeField(
+            default=django.utils.timezone.now, verbose_name="date joined"
+          ),
+        ),
+        ("email", models.EmailField(blank=True, max_length=254, null=True)),
+        ("is_email_verified", models.BooleanField(default=False)),
+        ("auth_version", models.PositiveBigIntegerField(default=0)),
+        (
+          "groups",
+          models.ManyToManyField(
+            blank=True,
+            help_text="The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+            related_name="user_set",
+            related_query_name="user",
+            to="auth.group",
+            verbose_name="groups",
+          ),
+        ),
+        (
+          "user_permissions",
+          models.ManyToManyField(
+            blank=True,
+            help_text="Specific permissions for this user.",
+            related_name="user_set",
+            related_query_name="user",
+            to="auth.permission",
+            verbose_name="user permissions",
+          ),
+        ),
+      ],
+      managers=[
+        ("objects", accounts.managers.CustomUserManager()),
+      ],
+    ),
+    migrations.CreateModel(
+      name="EmailVerificationCode",
+      fields=[
+        (
+          "id",
+          models.BigAutoField(
+            auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+          ),
+        ),
+        ("secret_code", models.CharField(blank=True, editable=False, max_length=255)),
+        ("code_created_at", models.DateTimeField(blank=True, db_index=True, null=True)),
+        (
+          "user",
+          models.OneToOneField(
+            on_delete=django.db.models.deletion.CASCADE,
+            related_name="verification_code",
+            to=settings.AUTH_USER_MODEL,
+          ),
+        ),
+      ],
+    ),
+    migrations.CreateModel(
+      name="SocialAccount",
+      fields=[
+        (
+          "id",
+          models.BigAutoField(
+            auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+          ),
+        ),
+        (
+          "provider",
+          models.CharField(
+            choices=[
+              ("google", "Google"),
+              ("github", "GitHub"),
+              ("yandex", "Yandex"),
+              ("x", "X"),
             ],
+            max_length=20,
+          ),
         ),
-        migrations.CreateModel(
-            name='CustomUser',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('username', models.CharField(error_messages={'unique': 'A user with that username already exists.'}, help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=150, unique=True, validators=[django.contrib.auth.validators.UnicodeUsernameValidator()], verbose_name='username')),
-                ('first_name', models.CharField(blank=True, max_length=150, verbose_name='first name')),
-                ('last_name', models.CharField(blank=True, max_length=150, verbose_name='last name')),
-                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
-                ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
-                ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('email', models.EmailField(blank=True, max_length=254, null=True)),
-                ('is_email_verified', models.BooleanField(default=False)),
-                ('auth_version', models.PositiveBigIntegerField(default=0)),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
-            ],
-            managers=[
-                ('objects', accounts.managers.CustomUserManager()),
-            ],
+        (
+          "provider_user_id",
+          models.CharField(blank=True, editable=False, max_length=255),
         ),
-        migrations.CreateModel(
-            name='EmailVerificationCode',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('secret_code', models.CharField(blank=True, editable=False, max_length=255)),
-                ('code_created_at', models.DateTimeField(blank=True, db_index=True, null=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='verification_code', to=settings.AUTH_USER_MODEL)),
-            ],
+        (
+          "user",
+          models.ForeignKey(
+            on_delete=django.db.models.deletion.CASCADE,
+            related_name="social_accounts",
+            to=settings.AUTH_USER_MODEL,
+          ),
         ),
-        migrations.CreateModel(
-            name='SocialAccount',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('provider', models.CharField(choices=[('google', 'Google'), ('github', 'GitHub'), ('yandex', 'Yandex'), ('x', 'X')], max_length=20)),
-                ('provider_user_id', models.CharField(blank=True, editable=False, max_length=255)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='social_accounts', to=settings.AUTH_USER_MODEL)),
-            ],
+      ],
+    ),
+    migrations.CreateModel(
+      name="UserDevice",
+      fields=[
+        (
+          "id",
+          models.BigAutoField(
+            auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+          ),
         ),
-        migrations.CreateModel(
-            name='UserDevice',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('device', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_devices', to='accounts.device')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_devices', to=settings.AUTH_USER_MODEL)),
-            ],
+        (
+          "device",
+          models.ForeignKey(
+            on_delete=django.db.models.deletion.CASCADE,
+            related_name="user_devices",
+            to="accounts.device",
+          ),
         ),
-        migrations.CreateModel(
-            name='UsernameChange',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('old_username', models.CharField(max_length=150)),
-                ('new_username', models.CharField(max_length=150)),
-                ('changed_at', models.DateTimeField(auto_now_add=True, db_index=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='username_changes', to=settings.AUTH_USER_MODEL)),
-            ],
+        (
+          "user",
+          models.ForeignKey(
+            on_delete=django.db.models.deletion.CASCADE,
+            related_name="user_devices",
+            to=settings.AUTH_USER_MODEL,
+          ),
         ),
-        migrations.AddConstraint(
-            model_name='customuser',
-            constraint=models.UniqueConstraint(django.db.models.functions.text.Upper('username'), name='uniq_username_ci'),
+      ],
+    ),
+    migrations.CreateModel(
+      name="UsernameChange",
+      fields=[
+        (
+          "id",
+          models.BigAutoField(
+            auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+          ),
         ),
-        migrations.AddConstraint(
-            model_name='customuser',
-            constraint=models.UniqueConstraint(django.db.models.functions.text.Upper('email'), condition=models.Q(('email__isnull', False), models.Q(('email', ''), _negated=True)), name='uniq_email_ci'),
+        ("old_username", models.CharField(max_length=150)),
+        ("new_username", models.CharField(max_length=150)),
+        ("changed_at", models.DateTimeField(auto_now_add=True, db_index=True)),
+        (
+          "user",
+          models.ForeignKey(
+            on_delete=django.db.models.deletion.CASCADE,
+            related_name="username_changes",
+            to=settings.AUTH_USER_MODEL,
+          ),
         ),
-        migrations.AddConstraint(
-            model_name='socialaccount',
-            constraint=models.UniqueConstraint(fields=('provider', 'provider_user_id'), name='uq_provider_uid'),
+      ],
+    ),
+    migrations.AddConstraint(
+      model_name="customuser",
+      constraint=models.UniqueConstraint(
+        django.db.models.functions.text.Upper("username"), name="uniq_username_ci"
+      ),
+    ),
+    migrations.AddConstraint(
+      model_name="customuser",
+      constraint=models.UniqueConstraint(
+        django.db.models.functions.text.Upper("email"),
+        condition=models.Q(
+          ("email__isnull", False), models.Q(("email", ""), _negated=True)
         ),
-        migrations.AlterUniqueTogether(
-            name='userdevice',
-            unique_together={('user', 'device')},
-        ),
-    ]
+        name="uniq_email_ci",
+      ),
+    ),
+    migrations.AddConstraint(
+      model_name="socialaccount",
+      constraint=models.UniqueConstraint(
+        fields=("provider", "provider_user_id"), name="uq_provider_uid"
+      ),
+    ),
+    migrations.AlterUniqueTogether(
+      name="userdevice",
+      unique_together={("user", "device")},
+    ),
+  ]

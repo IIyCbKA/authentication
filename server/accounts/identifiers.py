@@ -4,9 +4,10 @@ from typing import Iterator
 
 from django.db import connection
 
+
 def _lock_key(value: str) -> int:
-  digest = blake2b(value.encode('utf-8'), digest_size=8, person=b"auth-id").digest()
-  return int.from_bytes(digest, byteorder='big', signed=True)
+  digest = blake2b(value.encode("utf-8"), digest_size=8, person=b"auth-id").digest()
+  return int.from_bytes(digest, byteorder="big", signed=True)
 
 
 @contextmanager
@@ -20,16 +21,16 @@ def lock_identifiers(*values: str | None) -> Iterator[None]:
   """
 
   if not connection.in_atomic_block:
-    raise RuntimeError('Identifier locks require an atomic transaction')
+    raise RuntimeError("Identifier locks require an atomic transaction")
 
   identifiers = tuple(value for value in values if value)
-  if connection.vendor == 'postgresql' and identifiers:
+  if connection.vendor == "postgresql" and identifiers:
     with connection.cursor() as cursor:
-      expressions = ', '.join('UPPER(%s)' for _ in identifiers)
-      cursor.execute(f'SELECT {expressions}', identifiers)
+      expressions = ", ".join("UPPER(%s)" for _ in identifiers)
+      cursor.execute(f"SELECT {expressions}", identifiers)
       normalized = cursor.fetchone()
       keys = sorted({_lock_key(value) for value in normalized})
       for key in keys:
-        cursor.execute('SELECT pg_advisory_xact_lock(%s)', [key])
+        cursor.execute("SELECT pg_advisory_xact_lock(%s)", [key])
 
     yield

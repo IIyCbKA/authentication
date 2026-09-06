@@ -6,7 +6,8 @@ from ..tasks import send_new_device_email
 
 
 class DeviceService:
-  def record_login(self,
+  def record_login(
+    self,
     user,
     payload: dict | None,
     ip: str | None,

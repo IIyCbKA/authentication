@@ -1,19 +1,20 @@
 from rest_framework import status
 from rest_framework.exceptions import APIException
 
+
 class AuthenticationServiceError(APIException):
   status_code = status.HTTP_400_BAD_REQUEST
 
 
 class InvalidCredentialsError(AuthenticationServiceError):
-  default_detail = 'Invalid identifier or password'
-  default_code = 'invalid_credentials'
+  default_detail = "Invalid identifier or password"
+  default_code = "invalid_credentials"
 
 
 class InvalidRefreshTokenError(AuthenticationServiceError):
   status_code = status.HTTP_401_UNAUTHORIZED
-  default_detail = 'Invalid or expired refresh token'
-  default_code = 'invalid_refresh_token'
+  default_detail = "Invalid or expired refresh token"
+  default_code = "invalid_refresh_token"
 
 
 class InactiveAccountError(InvalidCredentialsError):
@@ -22,12 +23,12 @@ class InactiveAccountError(InvalidCredentialsError):
 
 class EmailAlreadyVerifiedError(AuthenticationServiceError):
   status_code = status.HTTP_409_CONFLICT
-  default_detail = 'Email address already verified'
-  default_code = 'email_already_verified'
+  default_detail = "Email address already verified"
+  default_code = "email_already_verified"
 
 
 class NoVerificationCodeError(AuthenticationServiceError):
-  default_detail = 'No verification code available'
+  default_detail = "No verification code available"
   default_code = "verification_code_missing"
 
 
