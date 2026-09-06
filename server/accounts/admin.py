@@ -1,5 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.db import router, transaction
+
+from .identifiers import lock_identifiers
 from .models import (
   CustomUser,
   Device,
@@ -9,19 +12,28 @@ from .models import (
   UsernameChange,
 )
 
-
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
   fieldsets = UserAdmin.fieldsets + (
-    (None, {'fields': ['is_email_verified',]}),
+    (None, {'fields': ['is_email_verified', 'auth_version']}),
   )
 
   add_fieldsets = UserAdmin.add_fieldsets + (
     (None, {'fields': ['is_email_verified',]}),
   )
 
-  readonly_fields = ()
-  list_display = UserAdmin.list_display + ('is_email_verified',)
+  readonly_fields = ('auth_version',)
+  list_display = UserAdmin.list_display + ('is_email_verified', 'auth_version',)
+
+  @transaction.atomic
+  def save_model(self, request, obj, form, change):
+    if change and obj.pk is not None:
+      database = router.db_for_write(type(obj), instance=obj)
+      type(obj).objects.using(database).select_for_update().get(pk=obj.pk)
+
+    with lock_identifiers(obj.username, obj.email):
+      obj.full_clean()
+      super().save_model(request, obj, form, change)
 
 
 @admin.register(EmailVerificationCode)

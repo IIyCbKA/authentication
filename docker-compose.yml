@@ -38,6 +38,14 @@ x-shared-configuration: &shared-configuration
     redis:
       condition: service_healthy
 
+x-celery-dependencies: &celery-dependencies
+  db:
+    condition: service_healthy
+  redis:
+    condition: service_healthy
+  server:
+    condition: service_healthy
+
 services:
   db:
     image: postgres:15
@@ -124,12 +132,14 @@ services:
   celery-worker:
     <<: *shared-configuration
     command: "celery_worker"
+    depends_on: *celery-dependencies
     networks:
       - backend
 
   celery-beat:
     <<: *shared-configuration
     command: "celery_beat"
+    depends_on: *celery-dependencies
     networks:
       - backend
     volumes:

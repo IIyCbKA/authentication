@@ -1,35 +1,20 @@
-from rest_framework.exceptions import APIException
+from datetime import datetime
 
-class EmailAlreadyVerifiedError(APIException):
-  status_code = 409
-  default_detail = 'Email address already verified'
-
-
-class InvalidRefreshTokenError(APIException):
-  status_code = 401
-  default_detail = 'Invalid or expired refresh token'
+class UsernameChangeError(Exception):
+  """Base exception for username profile invariants."""
 
 
-class OAuthConflictError(APIException):
-  status_code = 409
-  default_detail = 'Social account already linked to another user'
+class UsernameAlreadyTakenError(UsernameChangeError):
+  """Raised when another user already owns the requested username."""
 
 
-class OAuthProviderError(APIException):
-  status_code = 502
-  default_detail = 'Provider API error'
+class UsernameInvalidError(UsernameChangeError):
+  def __init__(self, detail: str):
+    self.detail = detail
+    super().__init__(detail)
 
 
-class OAuthRedirectMismatch(APIException):
-  status_code = 400
-  default_detail = 'OAuth redirect_uri mismatch'
-
-
-class OAuthStateError(APIException):
-  status_code = 400
-  default_detail = 'Invalid or expired OAuth state'
-
-
-class OAuthTokenExchangeError(APIException):
-  status_code = 502
-  default_detail = 'Failed to exchange authorization code'
+class UsernameChangeLimitExceeded(UsernameChangeError):
+  def __init__(self, next_allowed_at: datetime):
+    self.next_allowed_at = next_allowed_at
+    super().__init__(f'Username change limit reached until {next_allowed_at!s}')

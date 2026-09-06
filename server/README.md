@@ -1,4 +1,4 @@
-# Django Rest Framework Server for Project “Habit”
+# Django Rest Framework Server for Authentification Server
 
 ## 1. Installation and setup
 
