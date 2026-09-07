@@ -71,6 +71,7 @@ CELERY_TASK_ALWAYS_EAGER = DEBUG
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_CHECK_DELIVERABILITY = not DEBUG
 DEFAULT_FROM_EMAIL = "no-reply@greenhabit.ru"
 
 ERROR_DETAIL_KEY = "detail"
@@ -109,7 +110,7 @@ if not DEBUG:
 
   CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
   CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
-  CELERY_ACKS_LATE = True
+  CELERY_TASK_ACKS_LATE = True
 
   EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
   ANYMAIL = {
@@ -131,6 +132,10 @@ CLIENT_ENDPOINTS = {
   "PASSWORD_RESET": f"{CLIENT_BASE_URL.rstrip("/")}/auth/password/reset",
 }
 
+OAUTH_ALLOWED_NEXT_ORIGINS = [CLIENT_BASE_URL]
+OAUTH_HTTP_TIMEOUT_SECONDS = 10
+OAUTH_USER_AGENT = "<App Name>/1.0"
+
 # Application definition
 INSTALLED_APPS = [
   "accounts.apps.AccountsConfig",
@@ -151,7 +156,7 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
   "EXCEPTION_HANDLER": "core.exception_handlers.custom_exception_handler",
   "DEFAULT_AUTHENTICATION_CLASSES": (
-    "rest_framework_simplejwt.authentication.JWTAuthentication",
+    "authentication.authentication.VersionedJWTAuthentication",
   ),
   "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
   "DEFAULT_RENDERER_CLASSES": (
