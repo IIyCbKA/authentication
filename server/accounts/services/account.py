@@ -19,5 +19,5 @@ class AccountService:
       if locked_user.email and not locked_user.is_email_verified:
         raise PermissionDenied("Email verification is required")
 
-      self.token_service.revoke_all_for_user(locked_user)
+      self.token_service.revoke_all_for_locked_user(locked_user)
       locked_user.delete()

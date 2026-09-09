@@ -75,3 +75,6 @@ class RefreshGraceStore:
 
   def delete(self, old_jti: str) -> None:
     self.cache.delete(self._key(old_jti))
+
+  def delete_many(self, jtis: tuple[str, ...]) -> None:
+    self.cache.delete_many([self._key(jti) for jti in jtis])

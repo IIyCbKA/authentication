@@ -77,7 +77,7 @@ class PasswordResetService:
       user.set_password(new_password)
       user.save(update_fields=["password"])
 
-      self.token_service.revoke_all_for_user(user)
+      self.token_service.revoke_all_for_locked_user(user)
       tokens = self.token_service.issue_for_user(user)
       session = AuthSession(user=user, tokens=tokens)
 

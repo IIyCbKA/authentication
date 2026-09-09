@@ -149,7 +149,7 @@ class TokenService:
         and user is not None
         and payload.auth_version == user.auth_version
       ):
-        self.revoke_all_for_user(user)
+        self.revoke_all_for_locked_user(user)
         return
       jtis = sorted(item.jti for _, item in chain)
       outstanding_tokens = list(
@@ -165,20 +165,28 @@ class TokenService:
           robust=True,
         )
 
-  def revoke_all_for_user(self, user) -> None:
-    with transaction.atomic():
-      locked_user = User.objects.select_for_update().get(pk=user.pk)
-      outstanding_tokens = list(
-        OutstandingToken.objects.select_for_update()
-        .filter(user=locked_user)
-        .order_by("jti")
-      )
-      for outstanding in outstanding_tokens:
-        BlacklistedToken.objects.get_or_create(token=outstanding)
-        transaction.on_commit(
-          lambda jti=outstanding.jti: self.grace_store.delete(jti),
-          robust=True,
-        )
+  def revoke_all_for_locked_user(self, locked_user) -> None:
+    """Revoke all refresh tokens for a user locked by the caller.
+
+    Requires an active transaction holding the user's select_for_update() lock.
+    Grace entries are removed after commit.
+    """
+
+    outstanding_tokens = list(
+      OutstandingToken.objects.select_for_update()
+      .filter(user=locked_user)
+      .order_by("jti")
+    )
+
+    BlacklistedToken.objects.bulk_create(
+      [BlacklistedToken(token=token) for token in outstanding_tokens],
+      ignore_conflicts=True,
+    )
+
+    jtis = tuple(token.jti for token in outstanding_tokens)
+    transaction.on_commit(
+      lambda jtis=jtis: self.grace_store.delete_many(jtis), robust=True,
+    )
 
   def build_password_reset_link(self, user) -> str:
     uid = urlsafe_base64_encode(force_bytes(user.pk))

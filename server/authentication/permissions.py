@@ -78,10 +78,16 @@ class IsVerifiedOrEmailLess(BasePermission):
 
 
 class CanUseEmailVerificationEndpoints(BasePermission):
-  """Allows a pending access token to call confirm/resend only."""
+  """Allow active authenticated users with an unverified email."""
 
   message = "Email verification is not available for this account"
 
   def has_permission(self, request, view) -> bool:
     user = request.user
-    return bool(user and user.is_authenticated and user.is_active and user.email)
+    return bool(
+      user
+      and user.is_authenticated
+      and user.is_active
+      and user.email
+      and not user.is_email_verified
+    )

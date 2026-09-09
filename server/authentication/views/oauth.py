@@ -12,17 +12,12 @@ from ..services import CookieService, TokenService
 
 
 class OAuthStartView(APIView):
-  permission_classes = [AllowAny]
   service_class = OAuthService
   throttle_scope = "oauth_start"
 
   def get_permissions(self):
     if self.request.method == "POST":
-      return [
-        IsAuthenticated(),
-        IsVerifiedOrEmailLess(),
-        HasAllowedOrigin(),
-      ]
+      return [IsVerifiedOrEmailLess(), HasAllowedOrigin()]
     return [AllowAny()]
 
   def get(self, request: Request, provider: str | None = None) -> Response:
