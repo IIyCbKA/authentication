@@ -56,12 +56,10 @@ class CustomUser(AbstractUser):
       super().save(*args, **kwargs)
       return
 
-    database = kwargs.get("using") or router.db_for_write(type(self), instance=self)
-    kwargs["using"] = database
-    with transaction.atomic(using=database):
+    with transaction.atomic():
       previous = (
         type(self)
-        .objects.using(database)
+        .objects
         .select_for_update()
         .filter(pk=self.pk)
         .values("password", "auth_version")

@@ -39,8 +39,7 @@ class CustomUserAdmin(UserAdmin):
   @transaction.atomic
   def save_model(self, request, obj, form, change):
     if change and obj.pk is not None:
-      database = router.db_for_write(type(obj), instance=obj)
-      type(obj).objects.using(database).select_for_update().get(pk=obj.pk)
+      type(obj).objects.select_for_update().get(pk=obj.pk)
 
     with lock_identifiers(obj.username, obj.email):
       obj.full_clean()

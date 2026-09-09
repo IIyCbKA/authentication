@@ -1,10 +1,7 @@
-from datetime import timedelta
-
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core.management import call_command
-from django.utils import timezone
 
 from accounts.models import EmailVerificationCode
 
@@ -33,7 +30,6 @@ def _safe(value: str | None, fallback: str = "Unknown") -> str:
 
 
 @shared_task(
-  bind=True,
   autoretry_for=(Exception,),
   retry_backoff=True,
   retry_backoff_max=300,
@@ -41,7 +37,6 @@ def _safe(value: str | None, fallback: str = "Unknown") -> str:
   max_retries=5,
 )
 def send_verification_email(
-  self,
   email: str,
   code: str,
   created_at: str,
@@ -60,7 +55,6 @@ def send_verification_email(
 
 
 @shared_task(
-  bind=True,
   autoretry_for=(Exception,),
   retry_backoff=True,
   retry_backoff_max=300,
@@ -68,7 +62,6 @@ def send_verification_email(
   max_retries=5,
 )
 def send_password_reset_email(
-  self,
   email: str,
   reset_link: str,
   created_at: str,
@@ -87,7 +80,6 @@ def send_password_reset_email(
 
 
 @shared_task(
-  bind=True,
   autoretry_for=(Exception,),
   retry_backoff=True,
   retry_backoff_max=300,
@@ -95,7 +87,6 @@ def send_password_reset_email(
   max_retries=5,
 )
 def send_new_device_email(
-  self,
   email: str,
   platform: str | None,
   ip: str | None,
