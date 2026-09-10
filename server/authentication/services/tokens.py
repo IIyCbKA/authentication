@@ -178,12 +178,13 @@ class TokenService:
       .order_by("jti")
     )
 
-    BlacklistedToken.objects.bulk_create(
-      [BlacklistedToken(token=token) for token in outstanding_tokens],
-      ignore_conflicts=True,
-    )
+    blacklist_entries = []
+    jtis = []
+    for token in outstanding_tokens:
+      blacklist_entries.append(BlacklistedToken(token=token))
+      jtis.append(token.jti)
 
-    jtis = tuple(token.jti for token in outstanding_tokens)
+    BlacklistedToken.objects.bulk_create(blacklist_entries, ignore_conflicts=True)
     transaction.on_commit(
       lambda jtis=jtis: self.grace_store.delete_many(jtis), robust=True,
     )

@@ -52,16 +52,12 @@ ALLOWED_HOSTS = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = [
-  "http://localhost:3000",  # for dev
-]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = [
-  "http://localhost:3000",  # for dev
-]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
-CLIENT_BASE_URL = "http://127.0.0.1:3000"  # without lslash
+CLIENT_BASE_URL = "http://localhost:3000"  # without lslash
 CELERY_BROKER_URL = "redis://localhost:6379/0"
 CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
 CELERY_TIMEZONE = TIME_ZONE
@@ -93,10 +89,15 @@ DEFAULT_USERNAME_PREFIX = "user"
 USERNAME_CHANGE_LIMIT = 3
 USERNAME_CHANGE_WINDOW_DAYS = 30
 
+OAUTH_ALLOWED_NEXT_ORIGINS = ["http://localhost:3000"]
+OAUTH_HTTP_TIMEOUT_SECONDS = 10
+OAUTH_USER_AGENT = "<App Name>/1.0"
+
 if not DEBUG:
   CLIENT_BASE_URL = os.environ.get("CLIENT_URL")
   CORS_ALLOWED_ORIGINS.append(CLIENT_BASE_URL)
   CSRF_TRUSTED_ORIGINS.append(CLIENT_BASE_URL)
+  OAUTH_ALLOWED_NEXT_ORIGINS.append(CLIENT_BASE_URL)
 
   ALLOWED_HOSTS.append(os.environ.get("DJANGO_HOST"))
   ADMIN_IPS.append(os.environ.get("DJANGO_ADMIN_IP"))
@@ -131,10 +132,6 @@ if not DEBUG:
 CLIENT_ENDPOINTS = {
   "PASSWORD_RESET": f"{CLIENT_BASE_URL.rstrip("/")}/auth/password/reset",
 }
-
-OAUTH_ALLOWED_NEXT_ORIGINS = [CLIENT_BASE_URL]
-OAUTH_HTTP_TIMEOUT_SECONDS = 10
-OAUTH_USER_AGENT = "<App Name>/1.0"
 
 # Application definition
 INSTALLED_APPS = [
