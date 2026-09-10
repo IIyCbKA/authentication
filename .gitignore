@@ -1,3 +1,11 @@
 .env*
 !.env.example
 update.sh
+
+# Local TLS material
+certs/
+letsencrypt/
+*.pem
+*.key
+*.p12
+*.pfx

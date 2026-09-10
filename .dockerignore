@@ -1,0 +1,27 @@
+# Safety net if the repository root is used as a build context
+.git
+.idea
+.DS_Store
+**/.DS_Store
+**/node_modules
+**/dist
+**/__pycache__
+**/*.py[cod]
+**/.venv
+
+.env*
+**/.env*
+update.sh
+**/update.sh
+certs
+**/certs
+letsencrypt
+**/letsencrypt
+*.pem
+**/*.pem
+*.key
+**/*.key
+*.p12
+**/*.p12
+*.pfx
+**/*.pfx
