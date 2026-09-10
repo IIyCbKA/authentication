@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-from django.db import models, router, transaction
+from django.db import models, transaction
 from django.db.models import Q, UniqueConstraint
 from django.db.models.functions import Upper
 from django.utils import timezone

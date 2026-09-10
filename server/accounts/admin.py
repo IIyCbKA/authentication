@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.db import router, transaction
+from django.db import transaction
 
 from .identifiers import lock_identifiers
 from .models import (

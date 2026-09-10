@@ -275,6 +275,16 @@ DATABASES = {
     "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
     "HOST": os.environ.get("POSTGRES_HOST"),
     "PORT": os.environ.get("POSTGRES_PORT"),
+    "CONN_MAX_AGE": 0,
+    "OPTIONS": {
+      "pool": {
+        "min_size": 1,
+        "max_size": 2,
+        "max_lifetime": 3600,
+        "max_idle": 600,
+        "timeout": 5,
+      },
+    },
   }
 }
 

@@ -73,8 +73,8 @@ class LoginService:
           observed_at=observed_at,
         )
 
-    tokens = self.token_service.issue_for_user(user)
-    return AuthSession(user=user, tokens=tokens)
+      tokens = self.token_service.issue_for_user(user)
+      return AuthSession(user=user, tokens=tokens)
 
   def _authenticate(self, identifier: str, password: str):
     try:
