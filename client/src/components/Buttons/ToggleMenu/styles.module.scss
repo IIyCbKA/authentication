@@ -9,6 +9,24 @@
     background: transparent;
     cursor: pointer;
     color: inherit;
+
+    &.open {
+      .firstLine {
+        rotate: 45deg;
+      }
+
+      .secondLine {
+        opacity: 0;
+      }
+
+      .thirdLine {
+        rotate: -45deg;
+      }
+
+      .rootLine {
+        top: calc(50% - 1px);
+      }
+    }
   }
 
   .rootLine {
@@ -25,9 +43,6 @@
     z-index: var(--overlay-elem-zIndex);
   }
 
-  .open {
-  }
-
   .firstLine {
     top: 0;
   }
@@ -38,21 +53,5 @@
 
   .thirdLine {
     bottom: 0;
-  }
-
-  .toggleMenuWrapper.open .firstLine {
-    rotate: 45deg;
-  }
-
-  .toggleMenuWrapper.open .secondLine {
-    opacity: 0;
-  }
-
-  .toggleMenuWrapper.open .thirdLine {
-    rotate: -45deg;
-  }
-
-  .toggleMenuWrapper.open .rootLine {
-    top: calc(50% - 1px);
   }
 }

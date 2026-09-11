@@ -1,3 +1,5 @@
+@use "@/shared/styles/breakpoints" as breakpoints;
+
 @layer components {
   .stackRoot {
     position: fixed;
@@ -5,50 +7,50 @@
     flex-direction: column;
     gap: 12px;
     z-index: var(--notification-zIndex);
-  }
 
-  .stackRoot[data-horizontal="right"] {
-    right: 30px;
-    left: auto;
-    align-items: flex-end;
-  }
+    &[data-horizontal="right"] {
+      right: 30px;
+      left: auto;
+      align-items: flex-end;
+    }
 
-  .stackRoot[data-horizontal="left"] {
-    left: 30px;
-    right: auto;
-    align-items: flex-start;
-  }
+    &[data-horizontal="left"] {
+      left: 30px;
+      right: auto;
+      align-items: flex-start;
+    }
 
-  .stackRoot[data-horizontal="center"] {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    align-items: center;
-  }
-
-  .stackRoot[data-vertical="bottom"] {
-    bottom: 80px;
-  }
-
-  .stackRoot[data-vertical="top"] {
-    top: 80px;
-  }
-
-  @media (max-width: 600px) {
-    .stackRoot[data-horizontal="right"],
-    .stackRoot[data-horizontal="left"] {
-      right: 8vw;
-      left: 8vw;
-      transform: none;
+    &[data-horizontal="center"] {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
       align-items: center;
     }
 
-    .stackRoot[data-vertical="bottom"] {
-      bottom: 4vh;
+    &[data-vertical="bottom"] {
+      bottom: 80px;
+
+      @media (max-width: breakpoints.$mobile) {
+        bottom: 4vh;
+      }
     }
 
-    .stackRoot[data-vertical="top"] {
-      top: 4vh;
+    &[data-vertical="top"] {
+      top: 80px;
+
+      @media (max-width: breakpoints.$mobile) {
+        top: 4vh;
+      }
+    }
+
+    &[data-horizontal="right"],
+    &[data-horizontal="left"] {
+      @media (max-width: breakpoints.$mobile) {
+        right: 8vw;
+        left: 8vw;
+        transform: none;
+        align-items: center;
+      }
     }
   }
 }

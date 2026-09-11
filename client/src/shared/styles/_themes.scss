@@ -1,77 +1,310 @@
+@use "./colors" as colors;
+
+@property --surface-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-surface-color;
+}
+
+@property --surface-color-40 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-surface-color-40;
+}
+
+@property --surface-color-variant {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-surface-color-variant;
+}
+
+@property --background-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-background-color;
+}
+
+@property --background-secondary-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-background-secondary-color;
+}
+
+@property --background-tertiary-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-background-tertiary-color;
+}
+
+@property --text-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-text-color;
+}
+
+@property --text-secondary-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-text-secondary-color;
+}
+
+@property --text-tertiary-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-text-tertiary-color;
+}
+
+@property --text-selection-background-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-text-selection-background-color;
+}
+
+@property --backdrop-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-backdrop-color;
+}
+
+@property --title-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-title-color;
+}
+
+@property --line-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-line-color;
+}
+
+@property --grey-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-grey-color;
+}
+
+@property --grey-color-75 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-grey-color-75;
+}
+
+@property --grey-color-50 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-grey-color-50;
+}
+
+@property --grey-color-10 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-grey-color-10;
+}
+
+@property --dark-grey-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-muted-surface-color;
+}
+
+@property --dark-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-deep-surface-color;
+}
+
+@property --dark-color-50 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-deep-surface-color-50;
+}
+
+@property --main-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-main-color;
+}
+
+@property --main-color-20 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-main-color-20;
+}
+
+@property --main-variant-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-main-variant-color;
+}
+
+@property --secondary-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-secondary-color;
+}
+
+@property --secondary-variant-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-secondary-variant-color;
+}
+
+@property --tertiary-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-tertiary-color;
+}
+
+@property --tertiary-variant-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-tertiary-variant-color;
+}
+
+@property --danger-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-danger-color;
+}
+
+@property --on-main-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-on-main-color;
+}
+
+@property --shadow-soft-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-shadow-soft-color;
+}
+
+@property --shadow-strong-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: colors.$dark-shadow-strong-color;
+}
+
+@mixin darkTheme {
+  color-scheme: dark;
+
+  --surface-color: #{colors.$dark-surface-color};
+  --surface-color-40: #{colors.$dark-surface-color-40};
+  --surface-color-variant: #{colors.$dark-surface-color-variant};
+  --background-color: #{colors.$dark-background-color};
+  --background-secondary-color: #{colors.$dark-background-secondary-color};
+  --background-tertiary-color: #{colors.$dark-background-tertiary-color};
+  --text-color: #{colors.$dark-text-color};
+  --text-secondary-color: #{colors.$dark-text-secondary-color};
+  --text-tertiary-color: #{colors.$dark-text-tertiary-color};
+  --text-selection-background-color: #{colors.$dark-text-selection-background-color};
+  --backdrop-color: #{colors.$dark-backdrop-color};
+  --title-color: #{colors.$dark-title-color};
+  --line-color: #{colors.$dark-line-color};
+  --grey-color: #{colors.$dark-grey-color};
+  --grey-color-75: #{colors.$dark-grey-color-75};
+  --grey-color-50: #{colors.$dark-grey-color-50};
+  --grey-color-10: #{colors.$dark-grey-color-10};
+  --dark-grey-color: #{colors.$dark-muted-surface-color};
+  --dark-color: #{colors.$dark-deep-surface-color};
+  --dark-color-50: #{colors.$dark-deep-surface-color-50};
+  --main-color: #{colors.$dark-main-color};
+  --main-color-20: #{colors.$dark-main-color-20};
+  --main-variant-color: #{colors.$dark-main-variant-color};
+  --secondary-color: #{colors.$dark-secondary-color};
+  --secondary-variant-color: #{colors.$dark-secondary-variant-color};
+  --tertiary-color: #{colors.$dark-tertiary-color};
+  --tertiary-variant-color: #{colors.$dark-tertiary-variant-color};
+  --danger-color: #{colors.$dark-danger-color};
+  --on-main-color: #{colors.$dark-on-main-color};
+  --shadow-soft-color: #{colors.$dark-shadow-soft-color};
+  --shadow-strong-color: #{colors.$dark-shadow-strong-color};
+}
+
+@mixin lightTheme {
+  color-scheme: light;
+
+  --surface-color: #{colors.$light-surface-color};
+  --surface-color-40: #{colors.$light-surface-color-40};
+  --surface-color-variant: #{colors.$light-surface-color-variant};
+  --background-color: #{colors.$light-background-color};
+  --background-secondary-color: #{colors.$light-background-secondary-color};
+  --background-tertiary-color: #{colors.$light-background-tertiary-color};
+  --text-color: #{colors.$light-text-color};
+  --text-secondary-color: #{colors.$light-text-secondary-color};
+  --text-tertiary-color: #{colors.$light-text-tertiary-color};
+  --text-selection-background-color: #{colors.$light-text-selection-background-color};
+  --backdrop-color: #{colors.$light-backdrop-color};
+  --title-color: #{colors.$light-title-color};
+  --line-color: #{colors.$light-line-color};
+  --grey-color: #{colors.$light-grey-color};
+  --grey-color-75: #{colors.$light-grey-color-75};
+  --grey-color-50: #{colors.$light-grey-color-50};
+  --grey-color-10: #{colors.$light-grey-color-10};
+  --dark-grey-color: #{colors.$light-muted-surface-color};
+  --dark-color: #{colors.$light-deep-surface-color};
+  --dark-color-50: #{colors.$light-deep-surface-color-50};
+  --main-color: #{colors.$light-main-color};
+  --main-color-20: #{colors.$light-main-color-20};
+  --main-variant-color: #{colors.$light-main-variant-color};
+  --secondary-color: #{colors.$light-secondary-color};
+  --secondary-variant-color: #{colors.$light-secondary-variant-color};
+  --tertiary-color: #{colors.$light-tertiary-color};
+  --tertiary-variant-color: #{colors.$light-tertiary-variant-color};
+  --danger-color: #{colors.$light-danger-color};
+  --on-main-color: #{colors.$light-on-main-color};
+  --shadow-soft-color: #{colors.$light-shadow-soft-color};
+  --shadow-strong-color: #{colors.$light-shadow-strong-color};
+}
+
 @layer base {
-  // Preserve the existing dark appearance unless a theme is explicitly selected.
   :root {
-    color-scheme: dark;
-    --surface-color: rgb(36, 47, 61);
-    --surface-color-40: rgba(36, 47, 61, 0.4);
-    --surface-color-variant: rgb(57, 73, 94);
-    --background-color: rgb(23, 33, 43);
-    --background-secondary-color: rgb(36, 47, 61);
-    --background-tertiary-color: rgb(36, 47, 61);
-    --text-color: rgb(255, 255, 255);
-    --text-secondary-color: rgb(127, 145, 164);
-    --text-tertiary-color: rgb(127, 145, 164);
-    --text-selection-background-color: rgb(108, 114, 122);
-    --backdrop-color: rgba(23, 33, 43, 0.75);
-    --title-color: rgb(255, 255, 255);
-    --line-color: rgb(44, 55, 67);
-    --grey-color: rgb(127, 145, 164);
-    --grey-color-75: rgba(127, 145, 164, 0.75);
-    --grey-color-50: rgba(127, 145, 164, 0.5);
-    --grey-color-10: rgba(127, 145, 164, 0.1);
-    --dark-grey-color: rgb(74, 88, 103);
-    --dark-color: rgb(38, 50, 92);
-    --dark-color-50: rgba(38, 50, 92, 0.5);
-    --main-color: rgb(113, 119, 248);
-    --main-color-20: rgba(113, 119, 248, 0.2);
-    --main-variant-color: rgb(82, 90, 255);
-    --secondary-color: rgba(127, 145, 164, 0.5);
-    --secondary-variant-color: rgba(127, 145, 164, 0.7);
-    --tertiary-color: rgb(36, 47, 61);
-    --tertiary-variant-color: rgb(57, 73, 94);
-    --danger-color: rgb(255, 98, 112);
+    @include darkTheme;
 
     --common-bs:
-      rgba(0, 0, 0, 0) 0 0 0 0, rgba(0, 0, 0, 0) 0 0 0 0,
-      rgba(0, 0, 0, 0.03) 0 1px 3px 0, rgba(0, 0, 0, 0.13) 0 6px 16px 0;
-    --on-main-color: rgb(255, 255, 255);
-  }
+      transparent 0 0 0 0, transparent 0 0 0 0,
+      var(--shadow-soft-color) 0 1px 3px 0,
+      var(--shadow-strong-color) 0 6px 16px 0;
 
-  :root[data-theme="light"] {
-    color-scheme: light;
+    transition-property:
+      --surface-color, --surface-color-40, --surface-color-variant,
+      --background-color, --background-secondary-color,
+      --background-tertiary-color, --text-color, --text-secondary-color,
+      --text-tertiary-color, --text-selection-background-color,
+      --backdrop-color, --title-color, --line-color, --grey-color,
+      --grey-color-75, --grey-color-50, --grey-color-10, --dark-grey-color,
+      --dark-color, --dark-color-50, --main-color, --main-color-20,
+      --main-variant-color, --secondary-color, --secondary-variant-color,
+      --tertiary-color, --tertiary-variant-color, --danger-color,
+      --on-main-color, --shadow-soft-color, --shadow-strong-color;
+    transition-duration: var(--duration-theme);
+    transition-timing-function: var(--ease-quiet);
 
-    --surface-color: rgb(255, 255, 255);
-    --surface-color-40: rgba(255, 255, 255, 0.4);
-    --surface-color-variant: rgb(235, 239, 245);
-    --background-color: rgb(245, 247, 250);
-    --background-secondary-color: rgb(255, 255, 255);
-    --background-tertiary-color: rgb(235, 239, 245);
-    --text-color: rgb(31, 41, 55);
-    --text-secondary-color: rgb(78, 93, 113);
-    --text-tertiary-color: rgb(89, 105, 127);
-    --text-selection-background-color: rgb(215, 212, 255);
-    --backdrop-color: rgba(31, 41, 55, 0.4);
-    --title-color: rgb(31, 41, 55);
-    --line-color: rgb(121, 133, 151);
-    --grey-color: rgb(89, 105, 127);
-    --grey-color-75: rgba(89, 105, 127, 0.75);
-    --grey-color-50: rgba(89, 105, 127, 0.5);
-    --grey-color-10: rgba(89, 105, 127, 0.1);
-    --dark-grey-color: rgb(226, 232, 241);
-    --dark-color: rgb(37, 51, 75);
-    --dark-color-50: rgba(37, 51, 75, 0.5);
-    --main-color: rgb(87, 81, 216);
-    --main-color-20: rgba(87, 81, 216, 0.2);
-    --main-variant-color: rgb(68, 61, 186);
-    --secondary-color: rgba(89, 105, 127, 0.12);
-    --secondary-variant-color: rgba(89, 105, 127, 0.2);
-    --tertiary-color: rgb(235, 239, 245);
-    --tertiary-variant-color: rgb(226, 232, 241);
-    --danger-color: rgb(190, 42, 65);
-    --on-main-color: rgb(255, 255, 255);
+    &[data-theme="dark"] {
+      @include darkTheme;
+    }
 
-    --common-bs:
-      rgba(0, 0, 0, 0) 0 0 0 0, rgba(0, 0, 0, 0) 0 0 0 0,
-      rgba(31, 41, 55, 0.06) 0 1px 3px 0, rgba(31, 41, 55, 0.1) 0 6px 16px 0;
+    &[data-theme="light"] {
+      @include lightTheme;
+    }
+
+    &[data-theme="system"] {
+      @media (prefers-color-scheme: light) {
+        @include lightTheme;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+
+      // Local hover/focus transitions must not delay the theme change either
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+      }
+    }
   }
 }

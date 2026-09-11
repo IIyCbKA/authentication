@@ -1,4 +1,7 @@
 :root {
+  --ease-quiet: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-theme: 600ms;
+
   --auth-verified-header-height: 64px;
   --max-content-width: 1200px;
   --border-radius-small: 4px;

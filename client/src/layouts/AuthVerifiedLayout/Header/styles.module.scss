@@ -1,9 +1,15 @@
+@use "@/shared/styles/breakpoints" as breakpoints;
+
 .navbarRoot {
   margin-bottom: 32px;
 }
 
 .headerSpace {
   height: 0;
+
+  @media (max-width: breakpoints.$mobile) {
+    height: var(--auth-verified-header-height);
+  }
 }
 
 .headerContainer {
@@ -14,6 +20,13 @@
   height: var(--auth-verified-header-height);
   flex-shrink: 0;
   z-index: 4;
+
+  @media (max-width: breakpoints.$mobile) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 .headerContent {
@@ -36,17 +49,4 @@
 .logotypeImg {
   width: 100%;
   height: 100%;
-}
-
-@media (max-width: 600px) {
-  .headerContainer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
-  .headerSpace {
-    height: var(--auth-verified-header-height);
-  }
 }

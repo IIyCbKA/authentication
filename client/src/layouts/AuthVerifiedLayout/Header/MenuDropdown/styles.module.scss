@@ -1,7 +1,13 @@
+@use "@/shared/styles/breakpoints" as breakpoints;
+
 @layer utils {
   .dropdownContent {
     top: 36px;
     right: -12px;
+
+    @media (max-width: breakpoints.$mobile) {
+      display: none;
+    }
   }
 
   .dropdownToggle {
@@ -14,6 +20,10 @@
 .rootContainer {
   position: relative;
   margin-left: 6px;
+
+  @media (max-width: breakpoints.$mobile) {
+    display: none;
+  }
 }
 
 .toggleEndIconContainer {
@@ -25,20 +35,8 @@
 .dropdownChevron {
   transition: inherit;
   color: var(--text-secondary-color);
-}
 
-.dropdownToggle:hover .dropdownChevron {
-  color: inherit;
-}
-
-@media (max-width: 600px) {
-  @layer utils {
-    .dropdownContent {
-      display: none;
-    }
-  }
-
-  .rootContainer {
-    display: none;
+  .dropdownToggle:hover & {
+    color: inherit;
   }
 }

@@ -12,25 +12,25 @@
     border-radius: var(--border-radius-medium);
     border: 1px solid var(--line-color);
     transition: 0.25s all;
-  }
 
-  .inputWrapper:hover {
-    border-color: var(--main-color);
-  }
+    &:hover {
+      border-color: var(--main-color);
+    }
 
-  .inputWrapper:focus-within {
-    border-color: var(--main-color);
-    box-shadow: 0 0 0 1px var(--main-color);
-  }
+    &:focus-within {
+      border-color: var(--main-color);
+      box-shadow: 0 0 0 1px var(--main-color);
+    }
 
-  .inputWrapper.error {
-    border-color: var(--danger-color);
-    box-shadow: 0 0 0 1px var(--danger-color);
-  }
+    &.error {
+      border-color: var(--danger-color);
+      box-shadow: 0 0 0 1px var(--danger-color);
+    }
 
-  .inputWrapper.fullWidth {
-    display: block;
-    width: 100%;
+    &.fullWidth {
+      display: block;
+      width: 100%;
+    }
   }
 
   .input {
@@ -58,10 +58,10 @@
   .helper {
     font: var(--text-regular-medium);
     color: var(--text-secondary-color);
-  }
 
-  .helper.error {
-    color: var(--danger-color);
+    &.error {
+      color: var(--danger-color);
+    }
   }
 }
 

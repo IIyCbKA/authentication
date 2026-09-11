@@ -1,3 +1,5 @@
+@use "@/shared/styles/breakpoints" as breakpoints;
+
 @layer utils {
   .formDivider {
     height: 20px;
@@ -8,10 +10,10 @@
     padding: 0;
     background-color: transparent;
     color: var(--text-secondary-color);
-  }
 
-  .passwordInput:hover {
-    color: var(--text-color);
+    &:hover {
+      color: var(--text-color);
+    }
   }
 }
 
@@ -46,8 +48,8 @@
     margin-right: 12px;
   }
 
-  @media (max-width: 600px) {
-    .formWrap {
+  .formWrap {
+    @media (max-width: breakpoints.$mobile) {
       width: 100%;
       max-width: 380px;
     }

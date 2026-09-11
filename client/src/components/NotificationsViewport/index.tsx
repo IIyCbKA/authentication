@@ -1,8 +1,8 @@
 import { useCallback } from "react";
-import { NotificationStack } from "@/components";
+import NotificationStack from "../NotificationStack";
 import { selectNotifications } from "@/store/notifications/selectors";
 import { popNotification } from "@/store/notifications/slice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 export default function NotificationsViewport() {
   const dispatch = useAppDispatch();

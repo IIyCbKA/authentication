@@ -15,20 +15,20 @@
     color: var(--text-color);
     padding: 10px 20px;
     font-size: 24px;
-  }
 
-  .iconButtonRoot svg {
-    width: 1em;
-    height: 1em;
-    fill: currentColor;
-  }
+    svg {
+      width: 1em;
+      height: 1em;
+      fill: currentColor;
+    }
 
-  .iconButtonRoot:hover {
-    background-color: var(--tertiary-variant-color);
-  }
+    &:hover {
+      background-color: var(--tertiary-variant-color);
+    }
 
-  .iconButtonRoot:disabled {
-    cursor: not-allowed;
-    background-color: var(--tertiary-color);
+    &:disabled {
+      cursor: not-allowed;
+      background-color: var(--tertiary-color);
+    }
   }
 }
