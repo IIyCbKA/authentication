@@ -4,5 +4,4 @@
 
 import { HTMLAttributes } from "react";
 
-export interface CircularProgressProps
-  extends HTMLAttributes<HTMLSpanElement> {}
+export interface CircularProgressProps extends HTMLAttributes<HTMLSpanElement> {}

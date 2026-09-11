@@ -1,0 +1,44 @@
+@layer utils {
+  .dropdownContent {
+    top: 36px;
+    right: -12px;
+  }
+
+  .dropdownToggle {
+    color: inherit;
+    font: inherit;
+    padding: 6px 0;
+  }
+}
+
+.rootContainer {
+  position: relative;
+  margin-left: 6px;
+}
+
+.toggleEndIconContainer {
+  transition: inherit;
+  display: flex;
+  gap: 4px;
+}
+
+.dropdownChevron {
+  transition: inherit;
+  color: var(--text-secondary-color);
+}
+
+.dropdownToggle:hover .dropdownChevron {
+  color: inherit;
+}
+
+@media (max-width: 600px) {
+  @layer utils {
+    .dropdownContent {
+      display: none;
+    }
+  }
+
+  .rootContainer {
+    display: none;
+  }
+}

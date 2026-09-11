@@ -1,12 +1,12 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.css";
+import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
 import {
   LOGIN_PLACEHOLDER,
   PASSWORD_PLACEHOLDER,
   SIGN_IN_BTN_TEXT,
   TITLE_SCREEN,
 } from "./constants";
-import { EMPTY_STRING } from "@/core/constants";
+import { EMPTY_STRING } from "@/shared/config/constants";
 import ActionBar from "./ActionBar";
 import { ErrorsMap } from "./types";
 import SignInWith from "@/features/Auth/shared/SignInWith";
@@ -15,7 +15,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { Input, Button, Typography } from "@/components";
 import PasswordAdornment from "@/features/Auth/shared/PasswordAdornment";
 import { validateNonEmpty } from "@/domain/auth/validators";
-import { collectDeviceInfo } from "@/core/utils";
+import { collectDeviceInfo } from "@/shared/utils/device";
 
 export default function SignIn(): React.ReactElement {
   const dispatch = useAppDispatch();

@@ -1,8 +1,8 @@
 import React from "react";
 import { DrawerProps } from "./interface";
 import { CSSTransition } from "react-transition-group";
-import styles from "./styles.module.css";
-import classNames from "classnames";
+import styles from "./styles.module.scss";
+import clsx from "clsx";
 
 function DrawerInner(
   { animationDuration = 200, isOpen, className, ...other }: DrawerProps,
@@ -18,8 +18,6 @@ function DrawerInner(
   const styleAnimation = {
     "--drawer-duration": `${animationDuration}ms`,
   } as React.CSSProperties;
-
-  const containerStyles = classNames(styles.menuContainer, className);
 
   return (
     <CSSTransition
@@ -40,7 +38,7 @@ function DrawerInner(
         ref={innerRef}
         style={styleAnimation}
         {...other}
-        className={containerStyles}
+        className={clsx(styles.menuContainer, className)}
       />
     </CSSTransition>
   );

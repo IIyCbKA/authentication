@@ -1,4 +1,4 @@
-import { DeviceInfo } from "@/core/types";
+import { DeviceInfo } from "@/shared/utils/device/types";
 
 /*
 --------------AuthStatus type--------------
@@ -48,6 +48,8 @@ export type AuthState = {
   accessToken: string | null;
   isAuth: boolean;
   status: AuthStatus;
+  sessionRevision: number;
+  refreshRequestId: string | null;
 };
 
 /*
@@ -56,7 +58,7 @@ export type AuthState = {
 export type User = {
   id: number;
   username: string;
-  email: string;
+  email: string | null;
   isEmailVerified: boolean;
 };
 
@@ -108,4 +110,15 @@ user             - user data
 */
 export type UsernameUpdateResponse = {
   user: User;
+};
+
+export type OAuthProvider = "github" | "google" | "yandex" | "x";
+
+export type OAuthLinkData = {
+  provider: OAuthProvider;
+  next?: string;
+};
+
+export type OAuthAuthorizationResponse = {
+  authorizationUrl: string;
 };

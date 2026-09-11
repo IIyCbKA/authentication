@@ -14,6 +14,7 @@ export interface NotificationProps extends HTMLAttributes<HTMLDivElement> {
   id: string;
   message: string;
   autoHideDuration: number;
+  onDismiss: (id: string) => void;
   animationDuration?: number;
   slideFrom?: SlideDirection;
 }

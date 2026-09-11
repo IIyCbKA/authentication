@@ -1,18 +1,18 @@
 import React from "react";
-import styles from "./styles.module.css";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.css";
+import styles from "./styles.module.scss";
+import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
 import {
   HAVE_AN_ACCOUNT_QUESTION,
   ROOT_TEXT,
   TITLE_SCREEN,
   TO_SIGN_IN_BUTTON_TEXT,
 } from "./constants";
-import classNames from "classnames";
+import clsx from "clsx";
 import { PATHS } from "@/routes/paths";
 import { LinkTo, Typography } from "@/components";
 
 export default function ForgotPasswordSent(): React.ReactElement {
-  const questionContainerStyles = classNames(
+  const questionContainerStyles = clsx(
     sharedAuthStyles.actionBarContainer,
     styles.questionContainer,
   );

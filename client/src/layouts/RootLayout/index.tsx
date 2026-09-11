@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet, useNavigation } from "react-router-dom";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { LoadingOverlay } from "@/components";
 
 export default function RootLayout(): React.ReactElement {

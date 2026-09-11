@@ -1,0 +1,80 @@
+@layer overrides {
+  .button {
+    color: var(--text-color);
+    background-color: var(--dark-grey-color);
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  .button:hover {
+    background-color: var(--surface-color-variant);
+  }
+
+  .button:active {
+    background-color: var(--surface-color-variant);
+  }
+
+  @media (max-width: 600px) {
+    .button {
+      margin-top: 20px;
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+}
+
+@layer components {
+  .rootControlRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+  }
+
+  .descriptionWrap {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .descriptionText {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .title {
+    font: var(--text-semibold-large);
+    color: var(--text-color);
+    margin-bottom: 5px;
+  }
+
+  .info {
+    font: var(--text-regular-small);
+    color: var(--text-secondary-color);
+  }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 16px;
+    border-radius: 100px;
+    background-color: var(--dark-grey-color);
+    flex-shrink: 0;
+  }
+
+  .avatar svg {
+    height: 1em;
+    width: 1em;
+  }
+
+  @media (max-width: 600px) {
+    .rootControlRow {
+      flex-wrap: wrap;
+    }
+  }
+}

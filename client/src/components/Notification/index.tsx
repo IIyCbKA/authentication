@@ -1,10 +1,8 @@
 import React from "react";
-import styles from "./styles.module.css";
-import baseStyles from "@/core/base.module.css";
+import styles from "./styles.module.scss";
+import baseStyles from "@/shared/styles/base.module.scss";
 import { NotificationProps } from "./interface";
-import { useAppDispatch } from "@/store/hooks";
-import classNames from "classnames";
-import { popNotification } from "@/core/ui/slice";
+import clsx from "clsx";
 import { Close } from "@/assets/icons";
 import { CSSTransition } from "react-transition-group";
 import IconButton from "@/components/Buttons/IconButton";
@@ -14,12 +12,12 @@ function Notification({
   id,
   message,
   autoHideDuration,
+  onDismiss,
   animationDuration = 200,
   slideFrom = "right",
   className,
   ...other
 }: NotificationProps): React.ReactElement {
-  const dispatch = useAppDispatch();
   const endRef = React.useRef(Date.now() + autoHideDuration);
   const pauseRef = React.useRef(false);
   const pauseStarted = React.useRef(0);
@@ -27,12 +25,9 @@ function Notification({
   const [percent, setPercent] = React.useState<number>(100);
   const [visible, setVisible] = React.useState<boolean>(true);
 
-  const notificationStyles = classNames(styles.notificationRoot, className);
-  const contentStyles = classNames(styles.contentZone, baseStyles.breakText);
-
   const onExited: () => void = React.useCallback((): void => {
-    dispatch(popNotification(id));
-  }, [dispatch, id]);
+    onDismiss(id);
+  }, [onDismiss, id]);
 
   const onClose: () => void = React.useCallback(
     (): void => setVisible(false),
@@ -90,11 +85,13 @@ function Notification({
         {...other}
         style={styleAnimation}
         data-slide={slideFrom}
-        className={notificationStyles}
+        className={clsx(styles.notificationRoot, className)}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        <span className={contentStyles}>{message}</span>
+        <span className={clsx(styles.contentZone, baseStyles.breakText)}>
+          {message}
+        </span>
         <IconButton className={styles.closeButton} onClick={onClose}>
           <Close />
         </IconButton>

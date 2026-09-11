@@ -1,17 +1,16 @@
 import React from "react";
-import { useAppSelector } from "@/store/hooks";
-import { selectNotifications } from "@/core/ui/selectors";
 import { createPortal } from "react-dom";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import Notification from "@/components/Notification";
 import { NotificationStackProps } from "./interface";
 
 function NotificationStack({
+  notifications,
+  onDismiss,
   vertical = "bottom",
   horizontal = "right",
   slideFrom = "right",
 }: NotificationStackProps): React.ReactElement {
-  const list = useAppSelector(selectNotifications);
   const container = document.getElementById("notifications")!;
 
   return createPortal(
@@ -20,17 +19,16 @@ function NotificationStack({
       data-horizontal={horizontal}
       className={styles.stackRoot}
     >
-      {list.map(
-        (n): React.ReactElement => (
-          <Notification
-            key={n.id}
-            id={n.id}
-            message={n.message}
-            autoHideDuration={n.autoHideDuration}
-            slideFrom={slideFrom}
-          />
-        ),
-      )}
+      {notifications.map((n): React.ReactElement => (
+        <Notification
+          key={n.id}
+          id={n.id}
+          message={n.message}
+          autoHideDuration={n.autoHideDuration}
+          onDismiss={onDismiss}
+          slideFrom={slideFrom}
+        />
+      ))}
     </div>,
     container,
   );

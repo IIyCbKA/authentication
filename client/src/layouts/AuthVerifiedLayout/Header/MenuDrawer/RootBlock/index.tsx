@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppSelector } from "@/store/hooks";
 import { selectUsername } from "@/domain/auth/selectors";
-import sharedDrawerStyles from "@/layouts/AuthVerifiedLayout/Header/MenuDrawer/styles.module.css";
+import sharedDrawerStyles from "@/layouts/AuthVerifiedLayout/Header/MenuDrawer/styles.module.scss";
 import { DefaultAvatar } from "@/assets/icons";
 import { Button } from "@/components";
 

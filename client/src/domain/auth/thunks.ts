@@ -6,7 +6,11 @@ import {
   emailConfirm as emailConfirmAPI,
   passwordResetRequest as passwordResetRequestAPI,
   passwordResetConfirm as passwordResetConfirmAPI,
+  resendCode as resendCodeAPI,
   usernameUpdate as usernameUpdateAPI,
+  getCurrentAccount,
+  deleteCurrentAccount,
+  startOAuthLink,
 } from "./api";
 import { createAppAsyncThunk } from "@/store/apiThunk";
 import { SLICE_NAME } from "./constants";
@@ -36,4 +40,20 @@ export const passwordResetConfirm = createAppAsyncThunk(
 export const usernameUpdate = createAppAsyncThunk(
   `${SLICE_NAME}/username/update`,
   usernameUpdateAPI,
+);
+export const resendVerificationCode = createAppAsyncThunk(
+  `${SLICE_NAME}/email/resend`,
+  resendCodeAPI,
+);
+export const fetchCurrentAccount = createAppAsyncThunk(
+  `${SLICE_NAME}/account/get`,
+  getCurrentAccount,
+);
+export const deleteAccount = createAppAsyncThunk(
+  `${SLICE_NAME}/account/delete`,
+  deleteCurrentAccount,
+);
+export const linkOAuthAccount = createAppAsyncThunk(
+  `${SLICE_NAME}/oauth/link`,
+  startOAuthLink,
 );

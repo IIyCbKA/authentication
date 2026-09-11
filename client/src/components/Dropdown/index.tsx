@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { DropdownProps } from "./interface";
 import { CSSTransition } from "react-transition-group";
-import classNames from "classnames";
+import clsx from "clsx";
 
 function DropdownInner(
   { isOpen, animationDuration = 250, className, ...other }: DropdownProps,
@@ -18,8 +18,6 @@ function DropdownInner(
   const styleAnimation = {
     "--dropdown-duration": `${animationDuration}ms`,
   } as React.CSSProperties;
-
-  const containerStyles = classNames(styles.dropdownContainer, className);
 
   return (
     <CSSTransition
@@ -40,7 +38,7 @@ function DropdownInner(
         ref={innerRef}
         style={styleAnimation}
         {...other}
-        className={containerStyles}
+        className={clsx(styles.dropdownContainer, className)}
       />
     </CSSTransition>
   );

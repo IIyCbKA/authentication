@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components";
-import sharedDrawerStyles from "@/layouts/AuthVerifiedLayout/Header/MenuDrawer/styles.module.css";
+import sharedDrawerStyles from "@/layouts/AuthVerifiedLayout/Header/MenuDrawer/styles.module.scss";
 import { SETTINGS_BUTTON_TEXT, SIGN_OUT_BUTTON_TEXT } from "./constants";
 import { useAppDispatch } from "@/store/hooks";
 import { logout } from "@/domain/auth/thunks";

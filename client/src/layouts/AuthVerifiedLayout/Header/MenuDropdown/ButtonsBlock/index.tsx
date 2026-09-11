@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import {
   PATTERN_BUTTON_TEXT,
   SETTINGS_BUTTON_TEXT,
@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components";
 import { logout } from "@/domain/auth/thunks";
 import { useAppDispatch } from "@/store/hooks";
-import classNames from "classnames";
+import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/routes/paths";
 
@@ -37,7 +37,7 @@ export default function ButtonsBlock(): React.ReactElement {
       </Button>
       <Button
         fullWidth
-        className={classNames(styles.defaultButton, styles.logoutButton)}
+        className={clsx(styles.defaultButton, styles.logoutButton)}
         onClick={onSignOut}
       >
         {SIGN_OUT_BUTTON_TEXT}

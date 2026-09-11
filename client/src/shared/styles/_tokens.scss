@@ -1,0 +1,26 @@
+:root {
+  --auth-verified-header-height: 64px;
+  --max-content-width: 1200px;
+  --border-radius-small: 4px;
+  --border-radius-medium: 8px;
+  --border-radius-large: 12px;
+  --auth-logo-indent: 30px;
+  --auth-logo-size: 36px;
+  --notification-zIndex: 9999;
+  --overlay-layer-zIndex: 10000;
+  --overlay-elem-zIndex: 10001;
+  --overlay-loader-layer-zIndex: 20000;
+
+  --font-family: "Roboto", sans-serif;
+  --title: 700 24px/40px var(--font-family);
+  --title-medium: 700 24px/32px var(--font-family);
+  --title-small: 700 18px/24px var(--font-family);
+  --text-giant: 700 32px/42px var(--font-family);
+  --text-semibold-large: 500 15px/20px var(--font-family);
+  --text-semibold-medium: 500 14px/20px var(--font-family);
+  --text-semibold-small: 500 13px/16px var(--font-family);
+  --text-regular-large: 400 15px/20px var(--font-family);
+  --text-regular-medium: 400 14px/20px var(--font-family);
+  --text-regular-small: 400 13px/16px var(--font-family);
+  --text-caption: 500 12px/14px var(--font-family);
+}

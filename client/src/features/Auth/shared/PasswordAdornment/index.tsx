@@ -1,5 +1,5 @@
 import React from "react";
-import sharedAuthStyles from "../styles.module.css";
+import sharedAuthStyles from "../styles.module.scss";
 import { IconButton } from "@/components";
 import { CloseEye, OpenEye } from "@/assets/icons";
 import { PasswordAdornmentProps } from "./interface";

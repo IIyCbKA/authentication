@@ -11,8 +11,12 @@ import { NotificationProps } from "@/components/Notification/interface";
 type StackSlideProp = Pick<NotificationProps, "slideFrom">;
 
 export interface NotificationStackProps
-  extends HTMLAttributes<HTMLDivElement>,
-    StackSlideProp {
+  extends HTMLAttributes<HTMLDivElement>, StackSlideProp {
+  notifications: Pick<
+    NotificationProps,
+    "id" | "message" | "autoHideDuration"
+  >[];
+  onDismiss: NotificationProps["onDismiss"];
   vertical?: Vertical;
   horizontal?: Horizontal;
 }

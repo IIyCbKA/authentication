@@ -1,16 +1,11 @@
 import React from "react";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { IconButton } from "@/components";
 import { ELEMENTS_LIST } from "./constants";
 import { ButtonElement } from "./types";
-import { API_BASE } from "@/core/constants";
-import { Provider } from "./types";
+import { getOAuthLoginUrl } from "@/domain/auth/api";
 
 export default function ButtonsBlock(): React.ReactElement {
-  const getOauthStartPath = (provider: Provider, next: string) => {
-    return `${API_BASE}/auth/oauth/${provider}/start/?flow=login&next=${next}`;
-  };
-
   return (
     <div className={styles.buttonsBlockContainer}>
       {ELEMENTS_LIST.map(
@@ -19,8 +14,10 @@ export default function ButtonsBlock(): React.ReactElement {
           index: number,
         ): React.ReactElement => {
           const onClick = () => {
-            const next = encodeURIComponent(window.location.href);
-            window.location.href = getOauthStartPath(provider, next);
+            window.location.href = getOAuthLoginUrl(
+              provider,
+              window.location.href,
+            );
           };
 
           return (

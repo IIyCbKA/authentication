@@ -1,6 +1,6 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.css";
-import { EMPTY_STRING } from "@/core/constants";
+import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
+import { EMPTY_STRING } from "@/shared/config/constants";
 import {
   CODE_PLACEHOLDER,
   CONFIRM_BUTTON_TEXT,

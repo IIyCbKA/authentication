@@ -1,6 +1,7 @@
-import { RootState } from "@/store/store";
-import { AuthStatus, User } from "./types";
+import { AuthState, AuthStatus, User } from "./types";
 import { DEFAULT_EMAIL, DEFAULT_USERNAME } from "./constants";
+
+type RootState = { auth: AuthState };
 
 export const selectIsAuth = (state: RootState): boolean => state.auth.isAuth;
 export const selectUser = (state: RootState): User | null => state.auth.user;

@@ -1,0 +1,75 @@
+@layer components {
+  .modalWrap {
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: var(--dark-color-50);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    --modal-duration: 250ms;
+  }
+
+  .modalRoot {
+    position: relative;
+    width: 90vw;
+    max-width: 400px;
+    padding: 36px;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius-large);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .enter {
+    transform: translateY(-1%);
+    opacity: 0;
+  }
+  .enterActive {
+    transform: translateY(0);
+    opacity: 1;
+    transition:
+      transform var(--modal-duration) ease-out,
+      opacity var(--modal-duration) ease-out;
+  }
+  .enterDone {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .exit {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .exitActive {
+    transform: translateY(-1%);
+    opacity: 0;
+    transition:
+      transform var(--modal-duration) ease-in,
+      opacity var(--modal-duration) ease-in;
+  }
+  .exitDone {
+    transform: translateY(-1%);
+    opacity: 0;
+  }
+}
+
+@layer overrides {
+  .closeButton {
+    position: absolute;
+    z-index: 1;
+    right: 16px;
+    top: 16px;
+    background-color: transparent;
+    padding: 6px;
+    color: var(--text-secondary-color);
+    font-size: 20px;
+  }
+
+  .closeButton:hover {
+    color: var(--text-color);
+  }
+}

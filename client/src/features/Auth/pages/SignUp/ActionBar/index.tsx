@@ -1,13 +1,13 @@
 import React from "react";
-import styles from "./styles.module.css";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.css";
+import styles from "./styles.module.scss";
+import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
 import { HAVE_AN_ACCOUNT_QUESTION, TO_SIGN_IN_BUTTON_TEXT } from "./constants";
-import classNames from "classnames";
+import clsx from "clsx";
 import { LinkTo } from "@/components";
 import { PATHS } from "@/routes/paths";
 
 export default function ActionBar(): React.ReactElement {
-  const containerStyles = classNames(
+  const containerStyles = clsx(
     sharedAuthStyles.actionBarContainer,
     styles.container,
   );

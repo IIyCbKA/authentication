@@ -1,0 +1,77 @@
+@layer base {
+  // Preserve the existing dark appearance unless a theme is explicitly selected.
+  :root {
+    color-scheme: dark;
+    --surface-color: rgb(36, 47, 61);
+    --surface-color-40: rgba(36, 47, 61, 0.4);
+    --surface-color-variant: rgb(57, 73, 94);
+    --background-color: rgb(23, 33, 43);
+    --background-secondary-color: rgb(36, 47, 61);
+    --background-tertiary-color: rgb(36, 47, 61);
+    --text-color: rgb(255, 255, 255);
+    --text-secondary-color: rgb(127, 145, 164);
+    --text-tertiary-color: rgb(127, 145, 164);
+    --text-selection-background-color: rgb(108, 114, 122);
+    --backdrop-color: rgba(23, 33, 43, 0.75);
+    --title-color: rgb(255, 255, 255);
+    --line-color: rgb(44, 55, 67);
+    --grey-color: rgb(127, 145, 164);
+    --grey-color-75: rgba(127, 145, 164, 0.75);
+    --grey-color-50: rgba(127, 145, 164, 0.5);
+    --grey-color-10: rgba(127, 145, 164, 0.1);
+    --dark-grey-color: rgb(74, 88, 103);
+    --dark-color: rgb(38, 50, 92);
+    --dark-color-50: rgba(38, 50, 92, 0.5);
+    --main-color: rgb(113, 119, 248);
+    --main-color-20: rgba(113, 119, 248, 0.2);
+    --main-variant-color: rgb(82, 90, 255);
+    --secondary-color: rgba(127, 145, 164, 0.5);
+    --secondary-variant-color: rgba(127, 145, 164, 0.7);
+    --tertiary-color: rgb(36, 47, 61);
+    --tertiary-variant-color: rgb(57, 73, 94);
+    --danger-color: rgb(255, 98, 112);
+
+    --common-bs:
+      rgba(0, 0, 0, 0) 0 0 0 0, rgba(0, 0, 0, 0) 0 0 0 0,
+      rgba(0, 0, 0, 0.03) 0 1px 3px 0, rgba(0, 0, 0, 0.13) 0 6px 16px 0;
+    --on-main-color: rgb(255, 255, 255);
+  }
+
+  :root[data-theme="light"] {
+    color-scheme: light;
+
+    --surface-color: rgb(255, 255, 255);
+    --surface-color-40: rgba(255, 255, 255, 0.4);
+    --surface-color-variant: rgb(235, 239, 245);
+    --background-color: rgb(245, 247, 250);
+    --background-secondary-color: rgb(255, 255, 255);
+    --background-tertiary-color: rgb(235, 239, 245);
+    --text-color: rgb(31, 41, 55);
+    --text-secondary-color: rgb(78, 93, 113);
+    --text-tertiary-color: rgb(89, 105, 127);
+    --text-selection-background-color: rgb(215, 212, 255);
+    --backdrop-color: rgba(31, 41, 55, 0.4);
+    --title-color: rgb(31, 41, 55);
+    --line-color: rgb(121, 133, 151);
+    --grey-color: rgb(89, 105, 127);
+    --grey-color-75: rgba(89, 105, 127, 0.75);
+    --grey-color-50: rgba(89, 105, 127, 0.5);
+    --grey-color-10: rgba(89, 105, 127, 0.1);
+    --dark-grey-color: rgb(226, 232, 241);
+    --dark-color: rgb(37, 51, 75);
+    --dark-color-50: rgba(37, 51, 75, 0.5);
+    --main-color: rgb(87, 81, 216);
+    --main-color-20: rgba(87, 81, 216, 0.2);
+    --main-variant-color: rgb(68, 61, 186);
+    --secondary-color: rgba(89, 105, 127, 0.12);
+    --secondary-variant-color: rgba(89, 105, 127, 0.2);
+    --tertiary-color: rgb(235, 239, 245);
+    --tertiary-variant-color: rgb(226, 232, 241);
+    --danger-color: rgb(190, 42, 65);
+    --on-main-color: rgb(255, 255, 255);
+
+    --common-bs:
+      rgba(0, 0, 0, 0) 0 0 0 0, rgba(0, 0, 0, 0) 0 0 0 0,
+      rgba(31, 41, 55, 0.06) 0 1px 3px 0, rgba(31, 41, 55, 0.1) 0 6px 16px 0;
+  }
+}

@@ -6,7 +6,8 @@ import { passwordResetValidate } from "@/domain/auth/api";
 
 export const confirmEmailGuard: LoaderFunction = () => {
   const { user, accessToken } = store.getState().auth;
-  if (user?.isEmailVerified || !accessToken) throw redirect(PATHS.SIGN_IN);
+  if (!user?.email || user.isEmailVerified || !accessToken)
+    throw redirect(PATHS.SIGN_IN);
   return null;
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.css";
+import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
 import { INPUT_ELEMENTS, SIGN_UP_BUTTON_TEXT, TITLE_SCREEN } from "./constants";
-import { EMPTY_STRING } from "@/core/constants";
+import { EMPTY_STRING } from "@/shared/config/constants";
 import ActionBar from "./ActionBar";
 import SignInWith from "@/features/Auth/shared/SignInWith";
 import { ErrorsMap, FormData } from "./types";

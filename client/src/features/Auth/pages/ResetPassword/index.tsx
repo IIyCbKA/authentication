@@ -1,12 +1,12 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.css";
+import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
 import {
   CONFIRM_NEW_PASSWORD_INPUT_PLACEHOLDER,
   NEW_PASSWORD_INPUT_PLACEHOLDER,
   SET_NEW_PASSWORD_BUTTON_TEXT,
   TITLE_SCREEN,
 } from "./constants";
-import { EMPTY_STRING } from "@/core/constants";
+import { EMPTY_STRING } from "@/shared/config/constants";
 import { Button, Input, Typography } from "@/components";
 import PasswordAdornment from "@/features/Auth/shared/PasswordAdornment";
 import { useAppDispatch } from "@/store/hooks";
@@ -94,8 +94,9 @@ export default function ResetPassword(): React.ReactElement {
     try {
       await dispatch(
         passwordResetConfirm({ uid, token, newPassword: password }),
-      );
+      ).unwrap();
     } catch (e) {
+      // The application notification listener displays the server error.
     } finally {
       setProcessing(false);
     }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components";
-import sharedDrawerStyles from "@/layouts/AuthVerifiedLayout/Header/MenuDrawer/styles.module.css";
+import sharedDrawerStyles from "@/layouts/AuthVerifiedLayout/Header/MenuDrawer/styles.module.scss";
 import { PATTERN_BUTTON_TEXT } from "./constants";
 import { Grid } from "@/assets/icons";
 

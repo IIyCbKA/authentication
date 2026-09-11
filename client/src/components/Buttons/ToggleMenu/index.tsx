@@ -1,26 +1,22 @@
 import React from "react";
 import { ToggleMenuProps } from "./interface";
-import styles from "./styles.module.css";
-import classNames from "classnames";
+import styles from "./styles.module.scss";
+import clsx from "clsx";
 
 function ToggleMenuInner(
   { isOpen, isOverlay, className, ...other }: ToggleMenuProps,
   ref: React.ForwardedRef<HTMLButtonElement>,
 ): React.ReactElement {
-  const buttonStyles = classNames(styles.toggleMenuWrapper, className, {
+  const buttonStyles = clsx(styles.toggleMenuWrapper, className, {
     [styles.open]: isOpen,
     [styles.overlay]: isOverlay,
   });
 
-  const firstLineStyles = classNames(styles.rootLine, styles.firstLine);
-  const secondLineStyles = classNames(styles.rootLine, styles.secondLine);
-  const thirdLineStyles = classNames(styles.rootLine, styles.thirdLine);
-
   return (
     <button ref={ref} className={buttonStyles} {...other}>
-      <div className={firstLineStyles} />
-      <div className={secondLineStyles} />
-      <div className={thirdLineStyles} />
+      <div className={clsx(styles.rootLine, styles.firstLine)} />
+      <div className={clsx(styles.rootLine, styles.secondLine)} />
+      <div className={clsx(styles.rootLine, styles.thirdLine)} />
     </button>
   );
 }

@@ -1,17 +1,19 @@
 import React from "react";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { Circle } from "@/assets/icons";
 import { CircularProgressProps } from "./interface";
-import classNames from "classnames";
+import clsx from "clsx";
 
 function CircularProgressInner(
   { className, ...other }: CircularProgressProps,
   ref: React.ForwardedRef<HTMLSpanElement>,
 ): React.ReactElement {
-  const wrapStyles = classNames(styles.circularProgressWrap, className);
-
   return (
-    <span ref={ref} {...other} className={wrapStyles}>
+    <span
+      ref={ref}
+      {...other}
+      className={clsx(styles.circularProgressWrap, className)}
+    >
       <Circle className={styles.circularProgressRoot} />
     </span>
   );

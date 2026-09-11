@@ -7,6 +7,8 @@ import {
   logout,
   passwordResetConfirm,
   usernameUpdate,
+  fetchCurrentAccount,
+  deleteAccount,
 } from "./thunks";
 import { AuthState, CommonFulfilledResponse } from "./types";
 import { SLICE_NAME } from "./constants";
@@ -28,6 +30,8 @@ const commonLogout = (state: AuthState) => {
   state.accessToken = null;
   state.isAuth = false;
   state.status = "idle";
+  state.refreshRequestId = null;
+  state.sessionRevision += 1;
 };
 
 const authSlice = createSlice({
@@ -37,8 +41,12 @@ const authSlice = createSlice({
     accessToken: null,
     isAuth: false,
     status: "idle",
+    sessionRevision: 0,
+    refreshRequestId: null,
   } as AuthState,
-  reducers: {},
+  reducers: {
+    clearSession: commonLogout,
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -48,25 +56,64 @@ const authSlice = createSlice({
         state.status = "failed";
       })
       .addCase(usernameUpdate.fulfilled, (state, action) => {
-        state.user = action.payload.user;
+        if (state.user?.id === action.payload.user.id) {
+          state.user = action.payload.user;
+        }
+      })
+      .addCase(fetchCurrentAccount.fulfilled, (state, action) => {
+        if (state.user?.id === action.payload.id) {
+          state.user = action.payload;
+        }
+      })
+      .addCase(refreshAuth.pending, (state, action) => {
+        state.refreshRequestId = action.meta.requestId;
+      })
+      .addCase(refreshAuth.fulfilled, (state, action) => {
+        if (state.refreshRequestId !== action.meta.requestId) return;
+        commonFulfilled(state, action);
+        state.refreshRequestId = null;
+      })
+      .addCase(refreshAuth.rejected, (state, action) => {
+        if (state.refreshRequestId !== action.meta.requestId) return;
+        commonLogout(state);
       });
 
     builder
       .addMatcher(
         isAnyOf(
+          loginUser.pending,
+          registerUser.pending,
+          emailConfirm.pending,
+          passwordResetConfirm.pending,
+          logout.pending,
+          deleteAccount.pending,
+        ),
+        (state) => {
+          // A previous refresh must not replace a newer login or resurrect logout.
+          state.sessionRevision += 1;
+          state.refreshRequestId = null;
+        },
+      )
+      .addMatcher(
+        isAnyOf(
           loginUser.fulfilled,
           registerUser.fulfilled,
-          refreshAuth.fulfilled,
           emailConfirm.fulfilled,
           passwordResetConfirm.fulfilled,
         ),
-        commonFulfilled,
+        (state, action) => {
+          commonFulfilled(state, action);
+          // Also invalidate a refresh started while this auth request was pending.
+          state.sessionRevision += 1;
+          state.refreshRequestId = null;
+        },
       )
       .addMatcher(
-        isAnyOf(refreshAuth.rejected, logout.fulfilled),
+        isAnyOf(logout.fulfilled, deleteAccount.fulfilled),
         commonLogout,
       );
   },
 });
 
+export const { clearSession } = authSlice.actions;
 export default authSlice.reducer;

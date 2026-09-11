@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./styles.module.css";
-import classNames from "classnames";
+import styles from "./styles.module.scss";
+import clsx from "clsx";
 import { ButtonProps } from "./interface";
 import { LoadingSpinnerProps, PositionedAdornmentProps } from "./types";
 import CircularProgress from "@/components/Progress/CircularProgress";
@@ -10,7 +10,7 @@ function AdornmentIcon({
   className,
   position,
 }: PositionedAdornmentProps): React.ReactElement | null {
-  const adornmentStyles = classNames(styles.adornmentContainer, className, {
+  const adornmentStyles = clsx(styles.adornmentContainer, className, {
     [styles.startAdornment]: position === "start",
     [styles.endAdornment]: position === "end",
   });
@@ -48,7 +48,7 @@ function ButtonInner(
 ): React.ReactElement {
   const isDisabled = disabled || isLoading;
 
-  const buttonStyles = classNames(styles.rootButton, className, {
+  const buttonStyles = clsx(styles.rootButton, className, {
     [styles.fullWidth]: fullWidth,
     [styles.containedButton]: variant === "contained",
     [styles.textButton]: variant === "text",

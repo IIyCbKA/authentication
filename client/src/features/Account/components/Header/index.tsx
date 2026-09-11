@@ -1,17 +1,17 @@
 import React from "react";
-import styles from "./styles.module.css";
-import baseStyles from "@/core/base.module.css";
+import styles from "./styles.module.scss";
+import baseStyles from "@/shared/styles/base.module.scss";
 import { DefaultAvatar } from "@/assets/icons";
 import { useAppSelector } from "@/store/hooks";
 import { selectEmail, selectUsername } from "@/domain/auth/selectors";
-import classNames from "classnames";
+import clsx from "clsx";
 
 export default function Header(): React.ReactElement {
   const username = useAppSelector(selectUsername);
   const email = useAppSelector(selectEmail);
 
-  const usernameStyles = classNames(styles.username, baseStyles.truncateText);
-  const emailStyles = classNames(styles.email, baseStyles.truncateText);
+  const usernameStyles = clsx(styles.username, baseStyles.truncateText);
+  const emailStyles = clsx(styles.email, baseStyles.truncateText);
 
   return (
     <div className={styles.headerRoot}>

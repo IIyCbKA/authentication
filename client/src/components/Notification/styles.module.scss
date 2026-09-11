@@ -1,0 +1,101 @@
+@layer components {
+  .notificationRoot {
+    --notification-duration: 200ms;
+    --notification-transform: translateX(2%);
+
+    padding: 14px 10px 14px 14px;
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
+    color: var(--background-color);
+    width: 320px;
+    background-color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    font: var(--text-semibold-medium);
+  }
+
+  .notificationRoot[data-slide="left"] {
+    --notification-transform: translateX(-2%);
+  }
+
+  .notificationRoot[data-slide="right"] {
+    --notification-transform: translateX(2%);
+  }
+
+  .notificationRoot[data-slide="top"] {
+    --notification-transform: translateY(-2%);
+  }
+
+  .notificationRoot[data-slide="bottom"] {
+    --notification-transform: translateY(2%);
+  }
+
+  .contentZone {
+    flex-grow: 1;
+  }
+
+  .notificationAppear {
+    opacity: 0;
+    transform: var(--notification-transform);
+  }
+
+  .notificationAppearActive {
+    transition:
+      opacity var(--notification-duration) ease-out,
+      transform var(--notification-duration) ease-out;
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .notificationAppearDone {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .notificationExit {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .notificationExitActive {
+    transition:
+      opacity var(--notification-duration) ease-in,
+      transform var(--notification-duration) ease-in;
+    opacity: 0;
+    transform: var(--notification-transform);
+  }
+
+  .notificationExitDone {
+    opacity: 0;
+    transform: var(--notification-transform);
+  }
+
+  @media (max-width: 600px) {
+    .notificationRoot {
+      width: 100%;
+    }
+  }
+}
+
+@layer overrides {
+  .progressContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  .closeButton {
+    flex-shrink: 0;
+    font-size: 16px;
+    padding: 0;
+    background-color: transparent;
+    color: var(--grey-color-50);
+  }
+
+  .closeButton:hover {
+    background-color: transparent;
+    color: var(--background-color);
+  }
+}

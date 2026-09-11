@@ -1,0 +1,79 @@
+@layer reset {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  applet,
+  object,
+  iframe,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  blockquote,
+  pre,
+  abbr,
+  acronym,
+  address,
+  big,
+  cite,
+  code,
+  del,
+  dfn,
+  img,
+  input,
+  ins,
+  kbd,
+  q,
+  samp,
+  sub,
+  sup,
+  tt,
+  var,
+  dl,
+  dt,
+  dd,
+  ol,
+  ul,
+  li,
+  fieldset,
+  form,
+  label,
+  legend,
+  table,
+  caption,
+  tbody,
+  tfoot,
+  thead,
+  tr,
+  th,
+  td,
+  canvas,
+  embed,
+  figcaption,
+  hgroup,
+  output,
+  ruby,
+  summary,
+  time,
+  mark,
+  audio,
+  video,
+  button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+  }
+
+  body {
+    color: var(--text-color);
+    background-color: var(--background-color);
+    min-width: 320px;
+  }
+}

@@ -1,0 +1,13 @@
+.signInWithContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.titleRoot {
+  margin-bottom: 16px;
+  font: var(--text-regular-small);
+  color: var(--text-color);
+}

@@ -1,0 +1,19 @@
+@layer components {
+  .linkToRoot {
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+    color: var(--main-color);
+    font: var(--text-regular-medium);
+    transition: 0.18s all ease-in-out;
+  }
+
+  .linkToRoot svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .linkToRoot:hover {
+    color: var(--main-variant-color);
+  }
+}

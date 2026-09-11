@@ -1,11 +1,11 @@
 import React from "react";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { InputProps } from "./interface";
 import { HelperProps } from "./types";
-import classNames from "classnames";
+import clsx from "clsx";
 
 function Helper({ id, text, error }: HelperProps): React.ReactElement | null {
-  const helperStyles = classNames(styles.helper, {
+  const helperStyles = clsx(styles.helper, {
     [styles.error]: error,
   });
 
@@ -37,13 +37,13 @@ function InputInner(
   const { className: rootClassName, ...otherRootProps } = rootProps || {};
   const { className: wrapClassName, ...otherWrapProps } = wrapperProps || {};
 
-  const rootStyles = classNames(styles.inputRoot, rootClassName);
-  const inputWrapperStyles = classNames(styles.inputWrapper, wrapClassName, {
+  const inputWrapperStyles = clsx(styles.inputWrapper, wrapClassName, {
     [styles.fullWidth]: fullWidth,
     [styles.error]: error,
     [styles.onlyDisabledWrapper]: onlyDisabled,
   });
-  const inputStyles = classNames(styles.input, className, {
+
+  const inputStyles = clsx(styles.input, className, {
     [styles.inputWithAdornmentEnd]: inputAdornment,
     [styles.onlyDisabled]: onlyDisabled,
   });
@@ -53,7 +53,7 @@ function InputInner(
     : undefined;
 
   return (
-    <div className={rootStyles} {...otherRootProps}>
+    <div className={clsx(styles.inputRoot, rootClassName)} {...otherRootProps}>
       <span className={inputWrapperStyles} {...otherWrapProps}>
         <input
           ref={ref}

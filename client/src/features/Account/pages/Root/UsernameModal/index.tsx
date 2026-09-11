@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { UsernameModalProps } from "./interface";
 import { Button, Input, Modal, Typography } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -11,7 +11,7 @@ import {
   NEW_USERNAME_PLACEHOLDER,
   NOTE,
 } from "./constants";
-import { EMPTY_STRING } from "@/core/constants";
+import { EMPTY_STRING } from "@/shared/config/constants";
 import { validateNonEmpty } from "@/domain/auth/validators";
 
 export default function UsernameModal({

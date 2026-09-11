@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { ChevronDown, DefaultAvatar } from "@/assets/icons";
 import ButtonsBlock from "./ButtonsBlock";
 import { useAppSelector } from "@/store/hooks";

@@ -6,13 +6,31 @@ import {
   registerUser,
   passwordResetRequest,
   passwordResetConfirm,
+  deleteAccount,
+  refreshAuth,
 } from "@/domain/auth/thunks";
+import { isAnyOf } from "@reduxjs/toolkit";
+import { clearSession } from "@/domain/auth/slice";
 import { router } from "@/routes/router";
 import { PATHS } from "@/routes/paths";
 
 export function setupAuthNavigation() {
   startAppListening({
-    actionCreator: logout.fulfilled,
+    actionCreator: refreshAuth.rejected,
+    effect: (action, { getOriginalState, getState }) => {
+      const previous = getOriginalState().auth;
+      if (
+        previous.isAuth &&
+        previous.refreshRequestId === action.meta.requestId &&
+        !getState().auth.accessToken
+      ) {
+        router.navigate(PATHS.SIGN_IN, { replace: true });
+      }
+    },
+  });
+
+  startAppListening({
+    matcher: isAnyOf(logout.fulfilled, deleteAccount.fulfilled, clearSession),
     effect: () => {
       router.navigate(PATHS.SIGN_IN, { replace: true });
     },
@@ -21,9 +39,8 @@ export function setupAuthNavigation() {
   startAppListening({
     actionCreator: loginUser.fulfilled,
     effect: (action) => {
-      const verified = action.payload.user.isEmailVerified;
-
-      if (verified) router.navigate(PATHS.DASHBOARD, { replace: true });
+      if (action.payload.isAuthenticated)
+        router.navigate(PATHS.DASHBOARD, { replace: true });
       else router.navigate(PATHS.EMAIL_CONFIRM);
     },
   });

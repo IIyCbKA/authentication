@@ -16,10 +16,7 @@ export type FormData = {
 --------------FormField type--------------
 */
 export type FormField =
-  | "username"
-  | "password"
-  | "passwordConfirmation"
-  | "email";
+  "username" | "password" | "passwordConfirmation" | "email";
 
 /*
 --------------FieldConfig type--------------

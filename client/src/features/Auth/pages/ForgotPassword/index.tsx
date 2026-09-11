@@ -1,6 +1,6 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.css";
-import { EMPTY_STRING } from "@/core/constants";
+import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
+import { EMPTY_STRING } from "@/shared/config/constants";
 import {
   RECOVER_PASSWORD_BTN_TEXT,
   EMAIL_PLACEHOLDER,

@@ -1,7 +1,7 @@
 import { PATHS } from "@/routes/paths";
 import { LoaderFunction, redirect } from "react-router";
 import { store } from "@/store/store";
-import { ensureAuthInitialized } from "@/features/Auth/singleton";
+import { ensureAuthInitialized } from "@/features/Auth/initialize";
 
 export const IndexLoader: LoaderFunction = async () => {
   await ensureAuthInitialized();

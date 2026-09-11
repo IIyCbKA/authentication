@@ -1,8 +1,8 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { ModalProps } from "./interface";
-import classNames from "classnames";
-import styles from "./styles.module.css";
+import clsx from "clsx";
+import styles from "./styles.module.scss";
 import { CSSTransition } from "react-transition-group";
 import { CloseButtonProps } from "./types";
 import IconButton from "@/components/Buttons/IconButton";
@@ -21,10 +21,12 @@ function CloseButton({
     ...otherProps
   } = closeButtonProps || {};
 
-  const buttonStyles = classNames(styles.closeButton, className);
-
   return (
-    <IconButton className={buttonStyles} onClick={onClick} {...otherProps}>
+    <IconButton
+      className={clsx(styles.closeButton, className)}
+      onClick={onClick}
+      {...otherProps}
+    >
       {children ?? <Close />}
     </IconButton>
   );
@@ -66,8 +68,8 @@ function ModalInner(
     "--modal-duration": `${animationDuration}ms`,
   } as React.CSSProperties;
 
-  const wrapStyles = classNames(styles.modalWrap, wrapClassName);
-  const rootStyles = classNames(styles.modalRoot, rootClassName);
+  const wrapStyles = clsx(styles.modalWrap, wrapClassName);
+  const rootStyles = clsx(styles.modalRoot, rootClassName);
 
   const stop: (e: React.PointerEvent) => void = (
     e: React.PointerEvent,

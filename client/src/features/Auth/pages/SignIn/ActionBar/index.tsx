@@ -1,5 +1,5 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.css";
+import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
 import { FORGOT_PASSWORD_TEXT, SIGN_UP_TEXT } from "./constants";
 import { LinkTo } from "@/components";
 import { PATHS } from "@/routes/paths";

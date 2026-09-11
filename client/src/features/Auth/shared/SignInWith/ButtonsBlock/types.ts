@@ -1,9 +1,10 @@
 import React, { ButtonHTMLAttributes } from "react";
+import type { OAuthProvider } from "@/domain/auth/types";
 
 /*
 --------------Provider type--------------
 */
-export type Provider = "github" | "google" | "yandex" | "x";
+export type Provider = OAuthProvider;
 
 /*
 --------------IconComponent type--------------

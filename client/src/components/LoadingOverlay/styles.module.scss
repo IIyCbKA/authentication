@@ -1,0 +1,19 @@
+@layer components {
+  .loadingOverlayRoot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--main-color);
+  }
+
+  .fullParent {
+    flex: 1 0 auto;
+  }
+
+  .fullPage {
+    position: fixed;
+    inset: 0;
+    background-color: var(--background-color);
+    z-index: var(--overlay-loader-layer-zIndex);
+  }
+}

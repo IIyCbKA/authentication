@@ -1,5 +1,5 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.css";
+import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
 import { Button } from "@/components";
 import {
   CANCEL_BTN_TEXT,
@@ -7,10 +7,9 @@ import {
   RESEND_CODE_BTN_TEXT,
   RESEND_LOCK_SECONDS,
 } from "./constants";
-import { resendCode } from "@/domain/auth/api";
-import { seconds2MinutesSeconds } from "@/core/utils";
+import { seconds2MinutesSeconds } from "@/shared/utils/time/formatDuration";
 import { useAppDispatch } from "@/store/hooks";
-import { logout } from "@/domain/auth/thunks";
+import { logout, resendVerificationCode } from "@/domain/auth/thunks";
 
 export default function ActionBar(): React.ReactElement {
   const [secondsLeft, setSecondsLeft] =
@@ -23,13 +22,13 @@ export default function ActionBar(): React.ReactElement {
     setProcessing(true);
 
     try {
-      await resendCode();
+      await dispatch(resendVerificationCode()).unwrap();
+      setSecondsLeft(RESEND_LOCK_SECONDS);
     } catch (e) {
+      // The application notification listener displays the server error.
     } finally {
       setProcessing(false);
     }
-
-    setSecondsLeft(RESEND_LOCK_SECONDS);
   };
 
   const onCancelClick: () => void = (): void => {

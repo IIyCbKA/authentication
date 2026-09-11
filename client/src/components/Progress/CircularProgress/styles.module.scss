@@ -1,0 +1,52 @@
+@layer components {
+  .circularProgressWrap {
+    width: 48px;
+    height: 48px;
+    color: currentColor;
+    animation: 1.4s linear 0s infinite normal none running
+      circleProgressAnimation;
+    display: inline-block;
+  }
+
+  .circularProgressRoot {
+    color: currentColor;
+    stroke-dasharray: 80px 200px;
+    stroke-dashoffset: 0;
+    animation: 1.4s ease-in-out 0s infinite normal none running circleAnimation;
+    width: 100%;
+    height: 100%;
+  }
+
+  .circularProgressRoot svg {
+    width: 100%;
+    height: 100%;
+    color: currentColor;
+  }
+
+  @keyframes circleAnimation {
+    0% {
+      stroke-dasharray: 1px 200px;
+      stroke-dashoffset: 0;
+    }
+
+    50% {
+      stroke-dasharray: 100px 200px;
+      stroke-dashoffset: -14px;
+    }
+
+    100% {
+      stroke-dasharray: 1px 200px;
+      stroke-dashoffset: -125px;
+    }
+  }
+
+  @keyframes circleProgressAnimation {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

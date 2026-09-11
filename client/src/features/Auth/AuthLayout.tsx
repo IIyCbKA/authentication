@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { PATHS } from "@/routes/paths";
 import { Logotype } from "@/assets/icons";
 import { LinkTo } from "@/components";

@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 import { DividerProps } from "./interface";
-import classNames from "classnames";
+import clsx from "clsx";
 
 export default function Divider({
   flexItem,
@@ -15,23 +15,19 @@ export default function Divider({
 
   const orientationStyles =
     orientation === "horizontal"
-      ? classNames(styles.dividerHorizontal, {
+      ? clsx(styles.dividerHorizontal, {
           [styles.dividerHorizontalInset]: variant === "inset",
           [styles.dividerHorizontalMiddle]: variant === "middle",
           [styles.dividerHorizontalFlex]: flexItem,
         })
-      : classNames(styles.dividerVertical, {
+      : clsx(styles.dividerVertical, {
           [styles.dividerVerticalFullWidth]: variant === "fullwidth",
           [styles.dividerVerticalMiddle]: variant === "middle",
           [styles.dividerVerticalInset]: variant === "inset",
           [styles.dividerVerticalFlex]: flexItem,
         });
 
-  const dividerStyles = classNames(
-    styles.dividerRoot,
-    orientationStyles,
-    className,
-  );
+  const dividerStyles = clsx(styles.dividerRoot, orientationStyles, className);
 
   return <Component {...other} className={dividerStyles} />;
 }

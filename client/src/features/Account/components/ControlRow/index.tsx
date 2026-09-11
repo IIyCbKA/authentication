@@ -1,8 +1,8 @@
 import React from "react";
 import { ControlRowProps } from "./interface";
-import styles from "./styles.module.css";
-import baseStyles from "@/core/base.module.css";
-import classNames from "classnames";
+import styles from "./styles.module.scss";
+import baseStyles from "@/shared/styles/base.module.scss";
+import clsx from "clsx";
 import { Button, Divider } from "@/components";
 import { Grid } from "@/assets/icons";
 import { DividerWithConditionProps } from "./types";
@@ -41,10 +41,10 @@ function ControlRowInner(
     ...buttonOther
   } = buttonProps;
 
-  const rootStyles = classNames(styles.rootControlRow, className);
-  const iconStyles = classNames(styles.avatar, iconClassName);
-  const infoStyles = classNames(styles.info, baseStyles.truncateText);
-  const buttonStyles = classNames(styles.button, buttonClassName);
+  const rootStyles = clsx(styles.rootControlRow, className);
+  const iconStyles = clsx(styles.avatar, iconClassName);
+  const infoStyles = clsx(styles.info, baseStyles.truncateText);
+  const buttonStyles = clsx(styles.button, buttonClassName);
 
   return (
     <>
