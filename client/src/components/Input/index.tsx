@@ -26,10 +26,12 @@ function InputInner(
     name,
     rootProps,
     wrapperProps,
+    "aria-describedby": describedBy,
     ...other
   }: InputProps,
   ref: React.ForwardedRef<HTMLInputElement>,
 ): React.ReactElement {
+  const generatedId = React.useId();
   const { className: rootClassName, ...otherRootProps } = rootProps || {};
   const { className: wrapClassName, ...otherWrapProps } = wrapperProps || {};
 
@@ -45,8 +47,10 @@ function InputInner(
   });
 
   const helperId = helperText
-    ? `${id ?? name ?? React.useId()}-helper`
+    ? `${id ?? name ?? generatedId}-helper`
     : undefined;
+  const descriptionIds =
+    [describedBy, helperId].filter(Boolean).join(" ") || undefined;
 
   return (
     <div className={clsx(styles.inputRoot, rootClassName)} {...otherRootProps}>
@@ -58,7 +62,7 @@ function InputInner(
           name={name}
           className={inputStyles}
           aria-invalid={error ? "true" : undefined}
-          aria-describedby={helperId}
+          aria-describedby={descriptionIds}
         />
         {inputAdornment && (
           <div className={styles.adornmentWrap}>{inputAdornment}</div>

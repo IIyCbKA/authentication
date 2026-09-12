@@ -5,7 +5,7 @@ const setup = vi.hoisted(() => ({
   notificationListeners: vi.fn(() => vi.fn()),
 }));
 
-vi.mock("./authInterceptors", () => ({
+vi.mock("./interceptors/auth", () => ({
   setupAuthInterceptors: setup.authInterceptors,
 }));
 

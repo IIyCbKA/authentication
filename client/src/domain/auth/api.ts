@@ -1,6 +1,7 @@
 import { apiClient, publicClient, refreshClient } from "@/shared/http/client";
 import { API_BASE } from "@/shared/http/config";
 import { ENDPOINT } from "./endpoints";
+import { sendSessionRequest } from "./sessionTransport";
 import type {
   EmailConfirmData,
   LoginCreds,
@@ -20,9 +21,13 @@ import type {
 export async function login(
   creds: LoginCreds,
 ): Promise<CommonFulfilledResponse> {
-  const { data } = await publicClient.post<CommonFulfilledResponse>(
-    ENDPOINT.LOGIN,
-    creds,
+  const { data } = await sendSessionRequest<CommonFulfilledResponse>(
+    publicClient,
+    {
+      method: "post",
+      url: ENDPOINT.LOGIN,
+      data: creds,
+    },
   );
   return data;
 }
@@ -30,9 +35,13 @@ export async function login(
 export async function register(
   creds: RegisterCreds,
 ): Promise<CommonFulfilledResponse> {
-  const { data } = await publicClient.post<CommonFulfilledResponse>(
-    ENDPOINT.PENDING_REGISTER,
-    creds,
+  const { data } = await sendSessionRequest<CommonFulfilledResponse>(
+    publicClient,
+    {
+      method: "post",
+      url: ENDPOINT.PENDING_REGISTER,
+      data: creds,
+    },
   );
   return data;
 }
@@ -40,22 +49,33 @@ export async function register(
 export async function emailConfirm(
   confirmData: EmailConfirmData,
 ): Promise<CommonFulfilledResponse> {
-  const { data } = await apiClient.post<CommonFulfilledResponse>(
-    ENDPOINT.EMAIL_CONFIRM,
-    confirmData,
+  const { data } = await sendSessionRequest<CommonFulfilledResponse>(
+    apiClient,
+    {
+      method: "post",
+      url: ENDPOINT.EMAIL_CONFIRM,
+      data: confirmData,
+    },
   );
   return data;
 }
 
 export async function refresh(): Promise<CommonFulfilledResponse> {
-  const { data } = await refreshClient.post<CommonFulfilledResponse>(
-    ENDPOINT.REFRESH,
+  const { data } = await sendSessionRequest<CommonFulfilledResponse>(
+    refreshClient,
+    {
+      method: "post",
+      url: ENDPOINT.REFRESH,
+    },
   );
   return data;
 }
 
 export async function logout(): Promise<void> {
-  await publicClient.post(ENDPOINT.LOGOUT);
+  await sendSessionRequest(publicClient, {
+    method: "post",
+    url: ENDPOINT.LOGOUT,
+  });
 }
 
 export async function resendCode(): Promise<void> {
@@ -77,9 +97,13 @@ export async function passwordResetValidate(
 export async function passwordResetConfirm(
   confirmData: PasswordResetConfirmData,
 ): Promise<CommonFulfilledResponse> {
-  const { data } = await publicClient.post<CommonFulfilledResponse>(
-    ENDPOINT.PASSWORD_RESET_CONFIRM,
-    confirmData,
+  const { data } = await sendSessionRequest<CommonFulfilledResponse>(
+    publicClient,
+    {
+      method: "post",
+      url: ENDPOINT.PASSWORD_RESET_CONFIRM,
+      data: confirmData,
+    },
   );
   return data;
 }
@@ -90,7 +114,10 @@ export async function getCurrentAccount(): Promise<User> {
 }
 
 export async function deleteCurrentAccount(): Promise<void> {
-  await apiClient.delete(ENDPOINT.CURRENT_ACCOUNT);
+  await sendSessionRequest(apiClient, {
+    method: "delete",
+    url: ENDPOINT.CURRENT_ACCOUNT,
+  });
 }
 
 export async function usernameUpdate(

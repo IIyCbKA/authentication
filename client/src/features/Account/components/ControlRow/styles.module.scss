@@ -1,4 +1,5 @@
 @use "@/shared/styles/breakpoints" as breakpoints;
+@use "@/shared/styles/mixins" as mixins;
 
 @layer overrides {
   .button {
@@ -54,6 +55,8 @@
   }
 
   .info {
+    @include mixins.truncateText;
+
     font: var(--text-regular-small);
     color: var(--text-secondary-color);
   }

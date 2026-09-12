@@ -3,11 +3,7 @@ import { apiClient } from "@/shared/http/client.ts";
 import { refreshAuth } from "@/domain/auth/thunks.ts";
 import { clearSession } from "@/domain/auth/slice.ts";
 import { store } from "@/store/store.ts";
-import {
-  type AuthDependencies,
-  type AuthRequestConfig,
-  type SessionSnapshot,
-} from "./types.ts";
+import { type AuthDependencies, type AuthRequestConfig } from "./types.ts";
 
 export function installAuthInterceptors(
   client: AxiosInstance,

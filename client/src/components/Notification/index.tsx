@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./styles.module.scss";
-import baseStyles from "@/shared/styles/base.module.scss";
 import { NotificationProps } from "./interface";
 import clsx from "clsx";
 import { Close } from "@/assets/icons";
@@ -90,9 +89,7 @@ function Notification({
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        <span className={clsx(styles.contentZone, baseStyles.breakText)}>
-          {message}
-        </span>
+        <span className={styles.contentZone}>{message}</span>
         <IconButton className={styles.closeButton} onClick={onClose}>
           <Close />
         </IconButton>

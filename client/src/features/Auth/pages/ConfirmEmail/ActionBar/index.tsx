@@ -1,5 +1,5 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
+import styles from "./styles.module.scss";
 import { Button } from "@/components";
 import {
   CANCEL_BTN_TEXT,
@@ -51,7 +51,7 @@ export default function ActionBar(): React.ReactElement {
       : RESEND_CODE_BTN_TEXT;
 
   return (
-    <div className={sharedAuthStyles.actionBarContainer}>
+    <div className={styles.actionBarContainer}>
       <Button variant={"plain"} onClick={onCancelClick}>
         {CANCEL_BTN_TEXT}
       </Button>

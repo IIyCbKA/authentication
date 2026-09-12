@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import clsx from "clsx";
 
 function ToggleMenuInner(
-  { isOpen, isOverlay, className, ...other }: ToggleMenuProps,
+  { isOpen, isOverlay, className, type = "button", ...other }: ToggleMenuProps,
   ref: React.ForwardedRef<HTMLButtonElement>,
 ): React.ReactElement {
   const buttonStyles = clsx(styles.toggleMenuWrapper, className, {
@@ -13,7 +13,7 @@ function ToggleMenuInner(
   });
 
   return (
-    <button ref={ref} className={buttonStyles} {...other}>
+    <button ref={ref} className={buttonStyles} type={type} {...other}>
       <div className={clsx(styles.rootLine, styles.firstLine)} />
       <div className={clsx(styles.rootLine, styles.secondLine)} />
       <div className={clsx(styles.rootLine, styles.thirdLine)} />

@@ -1,5 +1,5 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
+import styles from "./styles.module.scss";
 import { EMPTY_STRING } from "@/shared/config/constants";
 import {
   RECOVER_PASSWORD_BTN_TEXT,
@@ -50,13 +50,9 @@ export default function ForgotPassword(): React.ReactElement {
   };
 
   return (
-    <div className={sharedAuthStyles.rootContainer}>
+    <div className={styles.rootContainer}>
       <Typography>{TITLE_SCREEN}</Typography>
-      <form
-        className={sharedAuthStyles.formContainer}
-        onSubmit={onSubmit}
-        noValidate
-      >
+      <form className={styles.formContainer} onSubmit={onSubmit} noValidate>
         <Input
           fullWidth
           ref={emailRef}

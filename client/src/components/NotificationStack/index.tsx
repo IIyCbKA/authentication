@@ -1,5 +1,6 @@
 import React from "react";
 import { createPortal } from "react-dom";
+import clsx from "clsx";
 import styles from "./styles.module.scss";
 import Notification from "@/components/Notification";
 import { NotificationStackProps } from "./interface";
@@ -10,14 +11,17 @@ function NotificationStack({
   vertical = "bottom",
   horizontal = "right",
   slideFrom = "right",
+  className,
+  ...other
 }: NotificationStackProps): React.ReactElement {
   const container = document.getElementById("notifications")!;
 
   return createPortal(
     <div
+      {...other}
       data-vertical={vertical}
       data-horizontal={horizontal}
-      className={styles.stackRoot}
+      className={clsx(styles.stackRoot, className)}
     >
       {notifications.map((n): React.ReactElement => (
         <Notification

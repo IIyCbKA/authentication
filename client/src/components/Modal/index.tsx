@@ -69,10 +69,9 @@ function ModalInner(
     "--modal-duration": `${animationDuration}ms`,
   } as React.CSSProperties;
 
-  const stop: (e: React.PointerEvent) => void = (
-    e: React.PointerEvent,
-  ): void => {
+  const onRootPointerDown: React.PointerEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
+    rootPointerDown?.(e);
   };
 
   return createPortal(
@@ -93,7 +92,7 @@ function ModalInner(
     >
       <div
         ref={innerRef}
-        style={{ ...styleAnimation, ...wrapStyle }}
+        style={{ ...wrapStyle, ...styleAnimation }}
         className={clsx(styles.modalWrap, wrapClassName)}
         onPointerDown={wrapPointerDown ?? onClose}
         role="dialog"
@@ -102,7 +101,7 @@ function ModalInner(
       >
         <div
           className={clsx(styles.modalRoot, rootClassName)}
-          onPointerDown={rootPointerDown ?? stop}
+          onPointerDown={onRootPointerDown}
           {...otherRootProps}
         >
           <CloseButton

@@ -1,5 +1,5 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
+import styles from "./styles.module.scss";
 import { INPUT_ELEMENTS, SIGN_UP_BUTTON_TEXT, TITLE_SCREEN } from "./constants";
 import { EMPTY_STRING } from "@/shared/config/constants";
 import ActionBar from "./ActionBar";
@@ -99,13 +99,9 @@ export default function SignUp(): React.ReactElement {
   };
 
   return (
-    <div className={sharedAuthStyles.rootContainer}>
+    <div className={styles.rootContainer}>
       <Typography>{TITLE_SCREEN}</Typography>
-      <form
-        className={sharedAuthStyles.formContainer}
-        onSubmit={onSubmit}
-        noValidate
-      >
+      <form className={styles.formContainer} onSubmit={onSubmit} noValidate>
         <Input
           fullWidth
           ref={usernameRef}

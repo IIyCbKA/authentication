@@ -31,6 +31,7 @@ const commonLogout = (state: AuthState) => {
   state.isAuth = false;
   state.status = "idle";
   state.refreshRequestId = null;
+  state.authRequestId = null;
   state.sessionRevision += 1;
 };
 
@@ -43,18 +44,13 @@ const authSlice = createSlice({
     status: "idle",
     sessionRevision: 0,
     refreshRequestId: null,
+    authRequestId: null,
   } as AuthState,
   reducers: {
     clearSession: commonLogout,
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(loginUser.rejected, (state) => {
-        state.status = "failed";
-      })
       .addCase(usernameUpdate.fulfilled, (state, action) => {
         if (state.user?.id === action.payload.user.id) {
           state.user = action.payload.user;
@@ -70,12 +66,18 @@ const authSlice = createSlice({
       })
       .addCase(refreshAuth.fulfilled, (state, action) => {
         if (state.refreshRequestId !== action.meta.requestId) return;
+        if (state.user?.id !== action.payload.user.id) {
+          state.sessionRevision += 1;
+        }
         commonFulfilled(state, action);
         state.refreshRequestId = null;
       })
       .addCase(refreshAuth.rejected, (state, action) => {
         if (state.refreshRequestId !== action.meta.requestId) return;
+        const authRequestId = state.authRequestId;
         commonLogout(state);
+        state.authRequestId = authRequestId;
+        if (authRequestId) state.status = "loading";
       });
 
     builder
@@ -88,10 +90,12 @@ const authSlice = createSlice({
           logout.pending,
           deleteAccount.pending,
         ),
-        (state) => {
+        (state, action) => {
           // A previous refresh must not replace a newer login or resurrect logout
           state.sessionRevision += 1;
           state.refreshRequestId = null;
+          state.authRequestId = action.meta.requestId;
+          state.status = "loading";
         },
       )
       .addMatcher(
@@ -102,15 +106,35 @@ const authSlice = createSlice({
           passwordResetConfirm.fulfilled,
         ),
         (state, action) => {
+          if (state.authRequestId !== action.meta.requestId) return;
           commonFulfilled(state, action);
           // Also invalidate a refresh started while this auth request was pending
           state.sessionRevision += 1;
           state.refreshRequestId = null;
+          state.authRequestId = null;
         },
       )
       .addMatcher(
         isAnyOf(logout.fulfilled, deleteAccount.fulfilled),
-        commonLogout,
+        (state, action) => {
+          if (state.authRequestId !== action.meta.requestId) return;
+          commonLogout(state);
+        },
+      )
+      .addMatcher(
+        isAnyOf(
+          loginUser.rejected,
+          registerUser.rejected,
+          emailConfirm.rejected,
+          passwordResetConfirm.rejected,
+          logout.rejected,
+          deleteAccount.rejected,
+        ),
+        (state, action) => {
+          if (state.authRequestId !== action.meta.requestId) return;
+          state.authRequestId = null;
+          state.status = "failed";
+        },
       );
   },
 });

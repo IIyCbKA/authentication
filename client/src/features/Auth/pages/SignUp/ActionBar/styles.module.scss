@@ -1,5 +1,13 @@
-@layer utils {
+@use "@/features/Auth/shared/mixins" as auth;
+
+@layer base {
   .container {
+    @include auth.actionBarContainer;
+
     justify-content: center;
+  }
+
+  .actionBarQuestionWrap {
+    @include auth.actionBarQuestionWrap;
   }
 }

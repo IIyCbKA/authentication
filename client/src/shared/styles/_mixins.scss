@@ -1,0 +1,11 @@
+@mixin truncateText {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@mixin breakText {
+  white-space: normal;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}

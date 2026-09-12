@@ -1,7 +1,6 @@
 import React from "react";
 import { ControlRowProps } from "./interface";
 import styles from "./styles.module.scss";
-import baseStyles from "@/shared/styles/base.module.scss";
 import clsx from "clsx";
 import { Button, Divider } from "@/components";
 import { Grid } from "@/assets/icons";
@@ -55,9 +54,7 @@ function ControlRowInner(
           </div>
           <div className={styles.descriptionText}>
             <span className={styles.title}>{title}</span>
-            <span className={clsx(styles.info, baseStyles.truncateText)}>
-              {info}
-            </span>
+            <span className={styles.info}>{info}</span>
           </div>
         </div>
         <Button

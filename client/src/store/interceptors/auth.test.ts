@@ -5,6 +5,9 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from "axios";
 import { installAuthInterceptors } from "./auth.ts";
+import authReducer from "@/domain/auth/slice";
+import { loginUser, refreshAuth } from "@/domain/auth/thunks";
+import type { CommonFulfilledResponse } from "@/domain/auth/types";
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -204,6 +207,94 @@ describe("access-token refresh", () => {
     newRefresh.resolve("new");
     await expect(newRequest).resolves.toMatchObject({ data: "ok" });
   });
+
+  it("does not replay a username mutation when refresh switches to another account", async () => {
+    const originalSession: CommonFulfilledResponse = {
+      user: {
+        id: 1,
+        username: "first-account",
+        email: null,
+        isEmailVerified: false,
+      },
+      accessToken: "first-token",
+      isAuthenticated: true,
+    };
+    const credentials = {
+      identifier: "first-account",
+      password: "password1",
+    };
+    let state = authReducer(
+      authReducer(undefined, loginUser.pending("login", credentials)),
+      loginUser.fulfilled(originalSession, "login", credentials),
+    );
+    const gate = deferred<CommonFulfilledResponse>();
+    const refresh = vi.fn(async () => {
+      state = authReducer(state, refreshAuth.pending("refresh"));
+      const result = await gate.promise;
+      state = authReducer(state, refreshAuth.fulfilled(result, "refresh"));
+      return result.accessToken;
+    });
+    const client = axios.create();
+    const attempts: InternalAxiosRequestConfig[] = [];
+    client.defaults.adapter = async (config) => {
+      attempts.push(config);
+      if (config.headers.get("Authorization") === "Bearer first-token") {
+        throw unauthorized(config);
+      }
+      return {
+        config,
+        data: "mutated another account",
+        status: 200,
+        statusText: "OK",
+        headers: new AxiosHeaders(),
+      };
+    };
+    const dispose = installAuthInterceptors(client, {
+      getSession: () => state,
+      refresh,
+      clearSession: vi.fn(),
+    });
+    try {
+      const pending = client.patch("/accounts/username/update/", {
+        username: "first-account-new-name",
+      });
+      const result = Promise.allSettled([pending]);
+      await vi.waitFor(() => expect(refresh).toHaveBeenCalledTimes(1));
+      gate.resolve({
+        ...originalSession,
+        user: { ...originalSession.user, id: 2, username: "second-account" },
+        accessToken: "second-token",
+      });
+
+      expect(await result).toEqual([
+        {
+          status: "rejected",
+          reason: new Error("Account session changed during refresh"),
+        },
+      ]);
+      expect(attempts).toHaveLength(1);
+    } finally {
+      dispose();
+    }
+  });
+
+  it.each([400, 403, 429, 500])(
+    "does not refresh or clear the session for HTTP %s",
+    async (status) => {
+      const f = fixture();
+      f.client.defaults.adapter = async (config) => {
+        const error = unauthorized(config);
+        error.response!.status = status;
+        throw error;
+      };
+
+      await expect(f.client.get("/accounts/me/")).rejects.toMatchObject({
+        response: { status },
+      });
+      expect(f.refresh).not.toHaveBeenCalled();
+      expect(f.clearSession).not.toHaveBeenCalled();
+    },
+  );
 
   it("does not refresh validation errors or retry a network failure", async () => {
     const f = fixture();

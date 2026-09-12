@@ -1,5 +1,5 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
+import styles from "./styles.module.scss";
 import { IconButton } from "@/components";
 import { CloseEye, OpenEye } from "@/assets/icons";
 import { PasswordAdornmentProps } from "./interface";
@@ -9,7 +9,7 @@ function InnerPasswordAdornment(
   ref: React.ForwardedRef<HTMLButtonElement>,
 ): React.ReactElement {
   return (
-    <IconButton ref={ref} className={sharedAuthStyles.passwordInput} {...other}>
+    <IconButton ref={ref} className={styles.passwordInput} {...other}>
       {isShow ? <CloseEye /> : <OpenEye />}
     </IconButton>
   );

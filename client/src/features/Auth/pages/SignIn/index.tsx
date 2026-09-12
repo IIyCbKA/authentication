@@ -1,5 +1,5 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
+import styles from "./styles.module.scss";
 import {
   LOGIN_PLACEHOLDER,
   PASSWORD_PLACEHOLDER,
@@ -83,13 +83,9 @@ export default function SignIn(): React.ReactElement {
   };
 
   return (
-    <div className={sharedAuthStyles.rootContainer}>
+    <div className={styles.rootContainer}>
       <Typography variant={"h1"}>{TITLE_SCREEN}</Typography>
-      <form
-        className={sharedAuthStyles.formContainer}
-        onSubmit={onSubmit}
-        noValidate
-      >
+      <form className={styles.formContainer} onSubmit={onSubmit} noValidate>
         <Input
           fullWidth
           ref={identifierRef}

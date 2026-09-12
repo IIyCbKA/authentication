@@ -1,5 +1,5 @@
 import React from "react";
-import sharedAuthStyles from "@/features/Auth/shared/styles.module.scss";
+import styles from "./styles.module.scss";
 import {
   CONFIRM_NEW_PASSWORD_INPUT_PLACEHOLDER,
   NEW_PASSWORD_INPUT_PLACEHOLDER,
@@ -103,13 +103,9 @@ export default function ResetPassword(): React.ReactElement {
   };
 
   return (
-    <div className={sharedAuthStyles.rootContainer}>
+    <div className={styles.rootContainer}>
       <Typography variant={"h1"}>{TITLE_SCREEN}</Typography>
-      <form
-        className={sharedAuthStyles.formContainer}
-        onSubmit={onSubmit}
-        noValidate
-      >
+      <form className={styles.formContainer} onSubmit={onSubmit} noValidate>
         <Input
           fullWidth
           ref={passwordRef}
