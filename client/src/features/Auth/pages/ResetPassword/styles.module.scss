@@ -1,0 +1,11 @@
+@use "@/features/Auth/shared/mixins" as auth;
+
+@layer base {
+  .rootContainer {
+    @include auth.rootContainer;
+  }
+
+  .formContainer {
+    @include auth.formContainer;
+  }
+}

@@ -1,0 +1,29 @@
+@mixin rootContainer {
+  display: flex;
+  flex-direction: column;
+  margin: calc(var(--auth-logo-indent) + var(--auth-logo-size) + 6px)
+    var(--auth-logo-indent);
+  width: 380px;
+  user-select: none;
+}
+
+@mixin formContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+@mixin actionBarContainer {
+  display: flex;
+  width: 100%;
+  margin-top: 24px;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-secondary-color);
+}
+
+@mixin actionBarQuestionWrap {
+  font: var(--text-regular-small);
+  margin-right: 12px;
+}

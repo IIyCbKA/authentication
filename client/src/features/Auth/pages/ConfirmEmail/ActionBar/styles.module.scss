@@ -1,0 +1,7 @@
+@use "@/features/Auth/shared/mixins" as auth;
+
+@layer base {
+  .actionBarContainer {
+    @include auth.actionBarContainer;
+  }
+}
