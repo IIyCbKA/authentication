@@ -16,6 +16,7 @@ function Notification({
   animationDuration = 200,
   slideFrom = "right",
   className,
+  style,
   ...other
 }: NotificationProps): React.ReactElement {
   const endRef = React.useRef(Date.now() + autoHideDuration);
@@ -83,7 +84,7 @@ function Notification({
       <div
         ref={nodeRef}
         {...other}
-        style={styleAnimation}
+        style={{ ...style, ...styleAnimation }}
         data-slide={slideFrom}
         className={clsx(styles.notificationRoot, className)}
         onMouseEnter={onMouseEnter}

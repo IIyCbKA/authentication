@@ -5,10 +5,10 @@ import { rootReducer } from "@/store/rootReducer";
 import { loginUser, refreshAuth } from "@/domain/auth/thunks";
 import type { CommonFulfilledResponse } from "@/domain/auth/types";
 import { PATHS } from "@/routes/paths";
-import { router } from "../../routes/router";
+import { router } from "@/routes/router";
 import { setupAuthNavigation } from "./navigation";
 
-vi.mock("../../routes/router", () => ({ router: { navigate: vi.fn() } }));
+vi.mock("@/routes/router", () => ({ router: { navigate: vi.fn() } }));
 
 const fullSession: CommonFulfilledResponse = {
   user: { id: 1, username: "test", email: null, isEmailVerified: false },

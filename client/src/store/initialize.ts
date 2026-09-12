@@ -1,4 +1,4 @@
-import { setupAuthInterceptors } from "./authInterceptors";
+import { setupAuthInterceptors } from "./interceptors/auth.ts";
 import { setupNotificationListeners } from "./notifications/listeners";
 
 // Module evaluation installs these once, independently of React renders

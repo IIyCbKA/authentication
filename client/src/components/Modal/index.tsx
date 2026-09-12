@@ -50,6 +50,7 @@ function ModalInner(
     children: content,
     className: wrapClassName,
     onPointerDown: wrapPointerDown,
+    style: wrapStyle,
     ...otherWrapProps
   } = wrapProps;
 
@@ -67,9 +68,6 @@ function ModalInner(
   const styleAnimation = {
     "--modal-duration": `${animationDuration}ms`,
   } as React.CSSProperties;
-
-  const wrapStyles = clsx(styles.modalWrap, wrapClassName);
-  const rootStyles = clsx(styles.modalRoot, rootClassName);
 
   const stop: (e: React.PointerEvent) => void = (
     e: React.PointerEvent,
@@ -95,15 +93,15 @@ function ModalInner(
     >
       <div
         ref={innerRef}
-        style={styleAnimation}
-        className={wrapStyles}
+        style={{ ...styleAnimation, ...wrapStyle }}
+        className={clsx(styles.modalWrap, wrapClassName)}
         onPointerDown={wrapPointerDown ?? onClose}
         role="dialog"
         aria-modal="true"
         {...otherWrapProps}
       >
         <div
-          className={rootStyles}
+          className={clsx(styles.modalRoot, rootClassName)}
           onPointerDown={rootPointerDown ?? stop}
           {...otherRootProps}
         >

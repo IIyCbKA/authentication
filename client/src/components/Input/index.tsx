@@ -5,14 +5,10 @@ import { HelperProps } from "./types";
 import clsx from "clsx";
 
 function Helper({ id, text, error }: HelperProps): React.ReactElement | null {
-  const helperStyles = clsx(styles.helper, {
-    [styles.error]: error,
-  });
-
   if (!text) return null;
 
   return (
-    <div id={id} className={helperStyles}>
+    <div id={id} className={clsx(styles.helper, { [styles.error]: error })}>
       {text}
     </div>
   );

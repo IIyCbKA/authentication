@@ -10,15 +10,16 @@ export default function Header(): React.ReactElement {
   const username = useAppSelector(selectUsername);
   const email = useAppSelector(selectEmail);
 
-  const usernameStyles = clsx(styles.username, baseStyles.truncateText);
-  const emailStyles = clsx(styles.email, baseStyles.truncateText);
-
   return (
     <div className={styles.headerRoot}>
       <DefaultAvatar className={styles.avatar} />
       <div className={styles.description}>
-        <span className={usernameStyles}>{username}</span>
-        <span className={emailStyles}>{email}</span>
+        <span className={clsx(styles.username, baseStyles.truncateText)}>
+          {username}
+        </span>
+        <span className={clsx(styles.email, baseStyles.truncateText)}>
+          {email}
+        </span>
       </div>
     </div>
   );

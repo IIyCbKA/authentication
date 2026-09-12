@@ -27,7 +27,10 @@ export default function Divider({
           [styles.dividerVerticalFlex]: flexItem,
         });
 
-  const dividerStyles = clsx(styles.dividerRoot, orientationStyles, className);
-
-  return <Component {...other} className={dividerStyles} />;
+  return (
+    <Component
+      {...other}
+      className={clsx(styles.dividerRoot, orientationStyles, className)}
+    />
+  );
 }

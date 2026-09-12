@@ -96,7 +96,7 @@ export default function ResetPassword(): React.ReactElement {
         passwordResetConfirm({ uid, token, newPassword: password }),
       ).unwrap();
     } catch (e) {
-      // The application notification listener displays the server error.
+      // The application notification listener displays the server error
     } finally {
       setProcessing(false);
     }

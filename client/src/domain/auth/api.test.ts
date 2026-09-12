@@ -5,7 +5,7 @@ import {
   type InternalAxiosRequestConfig,
 } from "axios";
 import { apiClient, publicClient, refreshClient } from "@/shared/http/client";
-import { installAuthInterceptors } from "@/store/authInterceptors";
+import { installAuthInterceptors } from "@/store/interceptors/auth.ts";
 import * as auth from "./api";
 
 const clients = [apiClient, publicClient, refreshClient];

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { store } from "../store";
+import { store } from "@/store/store";
 import { setupNotificationListeners } from "./listeners";
 import { popNotification } from "@/store/notifications/slice";
 import {

@@ -4,7 +4,7 @@ import axios, {
   AxiosHeaders,
   type InternalAxiosRequestConfig,
 } from "axios";
-import { installAuthInterceptors } from "./authInterceptors";
+import { installAuthInterceptors } from "./auth.ts";
 
 function deferred<T>() {
   let resolve!: (value: T) => void;

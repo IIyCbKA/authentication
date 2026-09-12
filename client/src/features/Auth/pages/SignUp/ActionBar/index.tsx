@@ -7,13 +7,10 @@ import { LinkTo } from "@/components";
 import { PATHS } from "@/routes/paths";
 
 export default function ActionBar(): React.ReactElement {
-  const containerStyles = clsx(
-    sharedAuthStyles.actionBarContainer,
-    styles.container,
-  );
-
   return (
-    <div className={containerStyles}>
+    <div
+      className={clsx(sharedAuthStyles.actionBarContainer, styles.container)}
+    >
       <span className={sharedAuthStyles.actionBarQuestionWrap}>
         {HAVE_AN_ACCOUNT_QUESTION}
       </span>

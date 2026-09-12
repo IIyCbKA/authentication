@@ -89,7 +89,7 @@ const authSlice = createSlice({
           deleteAccount.pending,
         ),
         (state) => {
-          // A previous refresh must not replace a newer login or resurrect logout.
+          // A previous refresh must not replace a newer login or resurrect logout
           state.sessionRevision += 1;
           state.refreshRequestId = null;
         },
@@ -103,7 +103,7 @@ const authSlice = createSlice({
         ),
         (state, action) => {
           commonFulfilled(state, action);
-          // Also invalidate a refresh started while this auth request was pending.
+          // Also invalidate a refresh started while this auth request was pending
           state.sessionRevision += 1;
           state.refreshRequestId = null;
         },

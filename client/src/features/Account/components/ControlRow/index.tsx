@@ -41,28 +41,29 @@ function ControlRowInner(
     ...buttonOther
   } = buttonProps;
 
-  const rootStyles = clsx(styles.rootControlRow, className);
-  const iconStyles = clsx(styles.avatar, iconClassName);
-  const infoStyles = clsx(styles.info, baseStyles.truncateText);
-  const buttonStyles = clsx(styles.button, buttonClassName);
-
   return (
     <>
       <DividerWithCondition isWithout={withoutTopDivider} />
-      <div ref={ref} className={rootStyles} {...other}>
+      <div
+        ref={ref}
+        className={clsx(styles.rootControlRow, className)}
+        {...other}
+      >
         <div className={styles.descriptionWrap}>
-          <div className={iconStyles} {...iconOther}>
+          <div className={clsx(styles.avatar, iconClassName)} {...iconOther}>
             {iconChildren}
           </div>
           <div className={styles.descriptionText}>
             <span className={styles.title}>{title}</span>
-            <span className={infoStyles}>{info}</span>
+            <span className={clsx(styles.info, baseStyles.truncateText)}>
+              {info}
+            </span>
           </div>
         </div>
         <Button
           {...buttonOther}
           variant={buttonVariant}
-          className={buttonStyles}
+          className={clsx(styles.button, buttonClassName)}
         >
           {buttonChildren}
         </Button>

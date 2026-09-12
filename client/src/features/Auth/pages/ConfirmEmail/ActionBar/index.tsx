@@ -25,7 +25,7 @@ export default function ActionBar(): React.ReactElement {
       await dispatch(resendVerificationCode()).unwrap();
       setSecondsLeft(RESEND_LOCK_SECONDS);
     } catch (e) {
-      // The application notification listener displays the server error.
+      // The application notification listener displays the server error
     } finally {
       setProcessing(false);
     }

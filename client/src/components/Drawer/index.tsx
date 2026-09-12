@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 import clsx from "clsx";
 
 function DrawerInner(
-  { animationDuration = 200, isOpen, className, ...other }: DrawerProps,
+  { animationDuration = 200, isOpen, className, style, ...other }: DrawerProps,
   ref: React.ForwardedRef<HTMLDivElement>,
 ): React.ReactElement | null {
   const innerRef = React.useRef<HTMLDivElement>(null);
@@ -36,7 +36,7 @@ function DrawerInner(
     >
       <div
         ref={innerRef}
-        style={styleAnimation}
+        style={{ ...style, ...styleAnimation }}
         {...other}
         className={clsx(styles.menuContainer, className)}
       />

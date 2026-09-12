@@ -5,7 +5,13 @@ import { CSSTransition } from "react-transition-group";
 import clsx from "clsx";
 
 function DropdownInner(
-  { isOpen, animationDuration = 250, className, ...other }: DropdownProps,
+  {
+    isOpen,
+    animationDuration = 250,
+    className,
+    style,
+    ...other
+  }: DropdownProps,
   ref: React.ForwardedRef<HTMLDivElement>,
 ): React.ReactElement {
   const innerRef = React.useRef<HTMLDivElement>(null);
@@ -36,7 +42,7 @@ function DropdownInner(
     >
       <div
         ref={innerRef}
-        style={styleAnimation}
+        style={{ ...style, ...styleAnimation }}
         {...other}
         className={clsx(styles.dropdownContainer, className)}
       />

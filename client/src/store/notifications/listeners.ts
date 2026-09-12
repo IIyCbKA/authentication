@@ -13,7 +13,7 @@ import {
   logout,
 } from "@/domain/auth/thunks";
 import { pushNotification } from "@/store/notifications/slice";
-import { startAppListening } from "../listener";
+import { startAppListening } from "@/store/listener";
 
 const isNotifiableRejection = isAnyOf(
   loginUser.rejected,
@@ -29,7 +29,7 @@ const isNotifiableRejection = isAnyOf(
   logout.rejected,
 );
 
-// Business events are connected to generic UI state at the application layer.
+// Business events are connected to generic UI state at the application layer
 export function setupNotificationListeners() {
   return startAppListening({
     matcher: isNotifiableRejection,

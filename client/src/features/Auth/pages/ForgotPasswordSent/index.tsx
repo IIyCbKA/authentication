@@ -12,18 +12,18 @@ import { PATHS } from "@/routes/paths";
 import { LinkTo, Typography } from "@/components";
 
 export default function ForgotPasswordSent(): React.ReactElement {
-  const questionContainerStyles = clsx(
-    sharedAuthStyles.actionBarContainer,
-    styles.questionContainer,
-  );
-
   return (
     <div className={sharedAuthStyles.rootContainer}>
       <Typography>{TITLE_SCREEN}</Typography>
       <div className={sharedAuthStyles.formContainer}>
         <span className={styles.rootText}>{ROOT_TEXT}</span>
       </div>
-      <div className={questionContainerStyles}>
+      <div
+        className={clsx(
+          sharedAuthStyles.actionBarContainer,
+          styles.questionContainer,
+        )}
+      >
         <span className={sharedAuthStyles.actionBarQuestionWrap}>
           {HAVE_AN_ACCOUNT_QUESTION}
         </span>

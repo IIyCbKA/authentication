@@ -1,28 +1,13 @@
-import axios, {
-  type AxiosInstance,
-  type InternalAxiosRequestConfig,
-} from "axios";
-import { apiClient } from "@/shared/http/client";
-import { refreshAuth } from "@/domain/auth/thunks";
-import { clearSession } from "@/domain/auth/slice";
-import { store } from "./store";
-
-type SessionSnapshot = {
-  accessToken: string | null;
-  isAuth: boolean;
-  sessionRevision: number;
-};
-
-type AuthRequestConfig = InternalAxiosRequestConfig & {
-  authRetry?: boolean;
-  authRevision?: number;
-};
-
-type AuthDependencies = {
-  getSession: () => SessionSnapshot;
-  refresh: () => Promise<string>;
-  clearSession: () => void;
-};
+import axios, { type AxiosInstance } from "axios";
+import { apiClient } from "@/shared/http/client.ts";
+import { refreshAuth } from "@/domain/auth/thunks.ts";
+import { clearSession } from "@/domain/auth/slice.ts";
+import { store } from "@/store/store.ts";
+import {
+  type AuthDependencies,
+  type AuthRequestConfig,
+  type SessionSnapshot,
+} from "./types.ts";
 
 export function installAuthInterceptors(
   client: AxiosInstance,
@@ -69,7 +54,7 @@ export function installAuthInterceptors(
 
       config.authRetry = true;
 
-      // A delayed 401 can arrive after another request has already refreshed.
+      // A delayed 401 can arrive after another request has already refreshed
       if (
         config.headers.get("Authorization") !== `Bearer ${session.accessToken}`
       ) {
