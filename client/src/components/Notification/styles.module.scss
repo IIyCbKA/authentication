@@ -1,7 +1,7 @@
 @use "@/shared/styles/breakpoints" as breakpoints;
 @use "@/shared/styles/mixins" as mixins;
 
-@layer components {
+@layer base {
   .notificationRoot {
     --notification-duration: 200ms;
     --notification-transform: translateX(2%);

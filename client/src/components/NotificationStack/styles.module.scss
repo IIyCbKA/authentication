@@ -1,6 +1,6 @@
 @use "@/shared/styles/breakpoints" as breakpoints;
 
-@layer components {
+@layer base {
   .stackRoot {
     position: fixed;
     display: flex;
