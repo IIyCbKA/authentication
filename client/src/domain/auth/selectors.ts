@@ -1,4 +1,4 @@
-import { AuthState, AuthStatus, User } from "./types";
+import type { AuthState, AuthStatus, User } from "./types";
 import { DEFAULT_EMAIL, DEFAULT_USERNAME } from "./constants";
 
 type RootState = { auth: AuthState };

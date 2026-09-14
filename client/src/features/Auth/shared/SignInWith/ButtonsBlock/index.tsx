@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 import { IconButton } from "@/components";
 import { ELEMENTS_LIST } from "./constants";
-import { ButtonElement } from "./types";
+import type { ButtonElement } from "./types";
 import { getOAuthLoginUrl } from "@/domain/auth/api";
 
 export default function ButtonsBlock(): React.ReactElement {

@@ -68,8 +68,10 @@ export function setupAuthNavigation() {
 
   startAppListening({
     actionCreator: passwordResetConfirm.fulfilled,
-    effect: () => {
-      router.navigate(PATHS.DASHBOARD, { replace: true });
+    effect: (action) => {
+      if (action.payload.isAuthenticated)
+        router.navigate(PATHS.DASHBOARD, { replace: true });
+      else router.navigate(PATHS.EMAIL_CONFIRM);
     },
   });
 }

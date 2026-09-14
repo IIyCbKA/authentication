@@ -9,7 +9,7 @@ iconProps             - props for icon wrapper; MUST include `children`
 */
 
 import { HTMLAttributes } from "react";
-import { ExtendedButtonProps, IconProps } from "./types";
+import type { ExtendedButtonProps, IconProps } from "./types";
 
 export interface ControlRowProps extends HTMLAttributes<HTMLDivElement> {
   title: string;

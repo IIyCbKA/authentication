@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 import clsx from "clsx";
 import { ButtonProps } from "./interface";
-import { LoadingSpinnerProps, PositionedAdornmentProps } from "./types";
+import type { LoadingSpinnerProps, PositionedAdornmentProps } from "./types";
 import CircularProgress from "@/components/Progress/CircularProgress";
 
 function AdornmentIcon({

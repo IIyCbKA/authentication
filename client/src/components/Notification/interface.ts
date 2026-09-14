@@ -8,7 +8,7 @@ slideFrom          - screen edge from which the notification will slide in/out
 */
 
 import { HTMLAttributes } from "react";
-import { SlideDirection } from "./types";
+import type { SlideDirection } from "./types";
 
 export interface NotificationProps extends HTMLAttributes<HTMLDivElement> {
   id: string;

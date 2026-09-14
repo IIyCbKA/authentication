@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import clsx from "clsx";
 import { Button, Divider } from "@/components";
 import { Grid } from "@/assets/icons";
-import { DividerWithConditionProps } from "./types";
+import type { DividerWithConditionProps } from "./types";
 
 function DividerWithCondition({
   isWithout,

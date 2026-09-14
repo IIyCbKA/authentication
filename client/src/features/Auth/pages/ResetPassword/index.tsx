@@ -12,8 +12,8 @@ import PasswordAdornment from "@/features/Auth/shared/PasswordAdornment";
 import { useAppDispatch } from "@/store/hooks";
 import { passwordResetConfirm } from "@/domain/auth/thunks";
 import { useLoaderData } from "react-router-dom";
-import { PasswordResetValidateData } from "@/domain/auth/types";
-import { ErrorsMap } from "./types";
+import type { PasswordResetValidateData } from "@/domain/auth/types";
+import type { ErrorsMap } from "./types";
 import {
   validatePassword,
   validatePasswordConfirmation,

@@ -8,7 +8,7 @@ variant          - variant of button style
 */
 
 import { ButtonHTMLAttributes } from "react";
-import { Adornment, ButtonVariant } from "./types";
+import type { Adornment, ButtonVariant } from "./types";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;

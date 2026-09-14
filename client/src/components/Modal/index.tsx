@@ -4,7 +4,7 @@ import { ModalProps } from "./interface";
 import clsx from "clsx";
 import styles from "./styles.module.scss";
 import { CSSTransition } from "react-transition-group";
-import { CloseButtonProps } from "./types";
+import type { CloseButtonProps } from "./types";
 import IconButton from "@/components/Buttons/IconButton";
 import { Close } from "@/assets/icons";
 

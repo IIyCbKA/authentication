@@ -1,5 +1,5 @@
 import { Github, Google, Yandex, XIcon } from "@/assets/icons";
-import { ButtonElement } from "./types";
+import type { ButtonElement } from "./types";
 
 export const ELEMENTS_LIST: ButtonElement[] = [
   {

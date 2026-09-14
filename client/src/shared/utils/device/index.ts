@@ -1,5 +1,5 @@
 import { DEVICE_ID_KEY } from "./constants";
-import { DeviceInfo } from "./types";
+import type { DeviceInfo } from "./types";
 
 export const getOrCreateDeviceID: () => string = (): string => {
   let id: string | null = localStorage.getItem(DEVICE_ID_KEY);

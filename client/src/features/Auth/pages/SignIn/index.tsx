@@ -8,7 +8,7 @@ import {
 } from "./constants";
 import { EMPTY_STRING } from "@/shared/config/constants";
 import ActionBar from "./ActionBar";
-import { ErrorsMap } from "./types";
+import type { ErrorsMap } from "./types";
 import SignInWith from "@/features/Auth/shared/SignInWith";
 import { loginUser } from "@/domain/auth/thunks";
 import { useAppDispatch } from "@/store/hooks";

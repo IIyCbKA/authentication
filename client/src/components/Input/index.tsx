@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import { InputProps } from "./interface";
-import { HelperProps } from "./types";
+import type { HelperProps } from "./types";
 import clsx from "clsx";
 
 function Helper({ id, text, error }: HelperProps): React.ReactElement | null {

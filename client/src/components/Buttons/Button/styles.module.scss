@@ -21,6 +21,10 @@
 
     &.loading {
       color: transparent;
+
+      &:disabled {
+        color: transparent;
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-import { FieldConfigMap } from "./types";
+import type { FieldConfigMap } from "./types";
 
 export const INPUT_ELEMENTS: FieldConfigMap = {
   username: {

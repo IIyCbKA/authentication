@@ -10,7 +10,7 @@ import {
   fetchCurrentAccount,
   deleteAccount,
 } from "./thunks";
-import { AuthState, CommonFulfilledResponse } from "./types";
+import type { AuthState, CommonFulfilledResponse } from "./types";
 import { SLICE_NAME } from "./constants";
 
 const commonFulfilled = (

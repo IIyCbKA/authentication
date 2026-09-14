@@ -4,7 +4,7 @@ import { INPUT_ELEMENTS, SIGN_UP_BUTTON_TEXT, TITLE_SCREEN } from "./constants";
 import { EMPTY_STRING } from "@/shared/config/constants";
 import ActionBar from "./ActionBar";
 import SignInWith from "@/features/Auth/shared/SignInWith";
-import { ErrorsMap, FormData } from "./types";
+import type { ErrorsMap, FormData } from "./types";
 import { registerUser } from "@/domain/auth/thunks";
 import { useAppDispatch } from "@/store/hooks";
 import { Input, Button, Typography } from "@/components";

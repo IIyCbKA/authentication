@@ -7,7 +7,7 @@ touchEventType  - type of touch event listener
 */
 
 import React from "react";
-import { Click, Touch } from "./types";
+import type { Click, Touch } from "./types";
 
 export interface ClickAwayListenerProps<
   RefElType extends HTMLElement = HTMLElement,
