@@ -11,13 +11,16 @@ import { emailConfirm } from "@/domain/auth/thunks";
 import ActionBar from "./ActionBar";
 import { Input, Button, Typography } from "@/components";
 import { validateNonEmpty } from "@/domain/auth/validators";
+import type { ProcessingButton } from "./types.ts";
 
 export default function ConfirmEmail(): React.ReactElement {
   const [code, setCode] = React.useState<string>(EMPTY_STRING);
-  const [isProcessing, setProcessing] = React.useState<boolean>(false);
-  const dispatch = useAppDispatch();
+  const [isProcessing, setProcessing] = React.useState<ProcessingButton | null>(
+    null,
+  );
   const [error, setError] = React.useState<string | undefined>(undefined);
   const codeRef = React.useRef<HTMLInputElement | null>(null);
+  const dispatch = useAppDispatch();
 
   const onCodeChange: (e: React.ChangeEvent<HTMLInputElement>) => void = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -32,7 +35,6 @@ export default function ConfirmEmail(): React.ReactElement {
     e.preventDefault();
 
     const newError: string | undefined = validateNonEmpty(code);
-
     setError(newError);
 
     if (newError) {
@@ -40,12 +42,13 @@ export default function ConfirmEmail(): React.ReactElement {
       return;
     }
 
-    setProcessing(true);
+    setProcessing("confirm");
     try {
       await dispatch(emailConfirm({ code })).unwrap();
     } catch (e) {
+      // The application notification listener displays the server error
     } finally {
-      setProcessing(false);
+      setProcessing(null);
     }
   };
 
@@ -66,7 +69,8 @@ export default function ConfirmEmail(): React.ReactElement {
           helperText={error}
         />
         <Button
-          isLoading={isProcessing}
+          isLoading={isProcessing === "confirm"}
+          disabled={isProcessing !== null}
           fullWidth
           variant={"contained"}
           type={"submit"}
@@ -74,7 +78,7 @@ export default function ConfirmEmail(): React.ReactElement {
           {CONFIRM_BUTTON_TEXT}
         </Button>
       </form>
-      <ActionBar isDisabled={isProcessing} />
+      <ActionBar isProcessing={isProcessing} setProcessing={setProcessing} />
     </div>
   );
 }

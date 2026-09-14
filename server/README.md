@@ -50,8 +50,9 @@ when testing locally. Swagger UI assets load from a CDN.
 OAuth login is a browser navigation flow, not a Swagger **Try it out** request.
 Open `/auth/oauth/github/start/?next=/` in the browser to start it (replace the
 provider as needed). Linking uses POST with `flow=link`, then navigation to the
-returned `authorizationUrl`. The callback describes the current behavior;
-error redirects are not implemented by this documentation change.
+returned `authorizationUrl`. With a valid state and session, provider-reported
+errors (including cancellation) redirect to the saved, validated `next` URL or
+`CLIENT_BASE_URL`. Other callback errors return JSON.
 
 To export and validate the schema without running the server:
 

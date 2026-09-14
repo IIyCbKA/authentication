@@ -1,8 +1,7 @@
-/*
---------------ActionBarProps Interface--------------
-isDisabled  - flag that buttons are blocked (if confirmation process is started)
-*/
+import React from "react";
+import type { ProcessingButton } from "@/features/Auth/pages/ConfirmEmail/types.ts";
 
 export interface ActionBarProps {
-  isDisabled: boolean;
+  isProcessing: ProcessingButton | null;
+  setProcessing: React.Dispatch<React.SetStateAction<ProcessingButton | null>>;
 }

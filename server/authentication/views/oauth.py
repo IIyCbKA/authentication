@@ -90,7 +90,9 @@ class OAuthCallbackView(APIView):
     description=(
       "Called by the provider in the same browser session. Requires state and either "
       "code or error. Successful login sets a refresh cookie; when next was supplied "
-      "at start, redirects there. Errors currently return JSON."
+      "at start, redirects there. After state and session checks, provider-reported "
+      "errors (including cancellation) redirect to the validated next URL or "
+      "CLIENT_BASE_URL. Other callback errors return JSON."
     ),
     parameters=[
       OpenApiParameter("state", str, required=True),
@@ -106,7 +108,10 @@ class OAuthCallbackView(APIView):
       ),
       204: OpenApiResponse(description="Linking without next."),
       303: OpenApiResponse(
-        description="Redirect to the validated next URL, without a response body.",
+        description=(
+          "Redirect to the validated next URL, or CLIENT_BASE_URL on provider error "
+          "when next is absent. No response body."
+        ),
       ),
       "4XX": ErrorResponseSerializer,
       502: ErrorResponseSerializer,

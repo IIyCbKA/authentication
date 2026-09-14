@@ -15,25 +15,30 @@ import { ActionBarProps } from "./interface.ts";
 export default function ActionBar(props: ActionBarProps): React.ReactElement {
   const [secondsLeft, setSecondsLeft] =
     React.useState<number>(RESEND_LOCK_SECONDS);
-  const [isProcessing, setProcessing] = React.useState<boolean>(false);
   const isDisabledResend: boolean = secondsLeft > 0;
   const dispatch = useAppDispatch();
 
   const onResendClick: () => Promise<void> = async (): Promise<void> => {
-    setProcessing(true);
-
+    props.setProcessing("resend");
     try {
       await dispatch(resendVerificationCode()).unwrap();
       setSecondsLeft(RESEND_LOCK_SECONDS);
     } catch (e) {
       // The application notification listener displays the server error
     } finally {
-      setProcessing(false);
+      props.setProcessing(null);
     }
   };
 
-  const onCancelClick: () => void = (): void => {
-    dispatch(logout());
+  const onCancelClick: () => Promise<void> = async (): Promise<void> => {
+    props.setProcessing("cancel");
+    try {
+      await dispatch(logout()).unwrap();
+    } catch (e) {
+      // The application notification listener displays the server error
+    } finally {
+      props.setProcessing(null);
+    }
   };
 
   React.useEffect(() => {
@@ -55,15 +60,16 @@ export default function ActionBar(props: ActionBarProps): React.ReactElement {
     <div className={styles.actionBarContainer}>
       <Button
         variant={"plain"}
-        disabled={props.isDisabled}
+        isLoading={props.isProcessing === "cancel"}
+        disabled={props.isProcessing !== null}
         onClick={onCancelClick}
       >
         {CANCEL_BTN_TEXT}
       </Button>
       <Button
-        isLoading={isProcessing}
-        disabled={props.isDisabled || isDisabledResend}
         variant={"plain"}
+        isLoading={props.isProcessing === "resend"}
+        disabled={props.isProcessing !== null || isDisabledResend}
         onClick={onResendClick}
       >
         {resendBtnText}
