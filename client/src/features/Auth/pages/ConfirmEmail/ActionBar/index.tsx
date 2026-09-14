@@ -10,8 +10,9 @@ import {
 import { seconds2MinutesSeconds } from "@/shared/utils/time/formatDuration";
 import { useAppDispatch } from "@/store/hooks";
 import { logout, resendVerificationCode } from "@/domain/auth/thunks";
+import { ActionBarProps } from "./interface.ts";
 
-export default function ActionBar(): React.ReactElement {
+export default function ActionBar(props: ActionBarProps): React.ReactElement {
   const [secondsLeft, setSecondsLeft] =
     React.useState<number>(RESEND_LOCK_SECONDS);
   const [isProcessing, setProcessing] = React.useState<boolean>(false);
@@ -52,12 +53,16 @@ export default function ActionBar(): React.ReactElement {
 
   return (
     <div className={styles.actionBarContainer}>
-      <Button variant={"plain"} onClick={onCancelClick}>
+      <Button
+        variant={"plain"}
+        disabled={props.isDisabled}
+        onClick={onCancelClick}
+      >
         {CANCEL_BTN_TEXT}
       </Button>
       <Button
         isLoading={isProcessing}
-        disabled={isDisabledResend}
+        disabled={props.isDisabled || isDisabledResend}
         variant={"plain"}
         onClick={onResendClick}
       >

@@ -1,20 +1,17 @@
-import axios, { type AxiosInstance } from "axios";
+import axios from "axios";
 import { apiClient } from "@/shared/http/client.ts";
 import { refreshAuth } from "@/domain/auth/thunks.ts";
 import { clearSession } from "@/domain/auth/slice.ts";
 import { store } from "@/store/store.ts";
-import { type AuthDependencies, type AuthRequestConfig } from "./types.ts";
+import type { AuthRequestConfig } from "./types.ts";
 
-export function installAuthInterceptors(
-  client: AxiosInstance,
-  dependencies: AuthDependencies,
-): () => void {
+export function setupAuthInterceptors(): () => void {
   let refreshFlight: { revision: number; promise: Promise<string> } | null =
     null;
 
-  const requestId = client.interceptors.request.use(
+  const requestId = apiClient.interceptors.request.use(
     (config: AuthRequestConfig) => {
-      const session = dependencies.getSession();
+      const session = store.getState().auth;
       if (config.authRetry && config.authRevision !== session.sessionRevision) {
         throw new Error("Account session changed during the request");
       }
@@ -28,7 +25,7 @@ export function installAuthInterceptors(
     },
   );
 
-  const responseId = client.interceptors.response.use(
+  const responseId = apiClient.interceptors.response.use(
     (response) => response,
     async (error: unknown) => {
       if (
@@ -40,11 +37,11 @@ export function installAuthInterceptors(
       }
 
       const config = error.config as AuthRequestConfig;
-      const session = dependencies.getSession();
+      const session = store.getState().auth;
       if (config.authRevision !== session.sessionRevision) throw error;
 
       if (config.authRetry || !session.isAuth || !session.accessToken) {
-        if (session.accessToken) dependencies.clearSession();
+        if (session.accessToken) store.dispatch(clearSession());
         throw error;
       }
 
@@ -54,7 +51,7 @@ export function installAuthInterceptors(
       if (
         config.headers.get("Authorization") !== `Bearer ${session.accessToken}`
       ) {
-        return client.request(config);
+        return apiClient.request(config);
       }
 
       if (
@@ -63,7 +60,10 @@ export function installAuthInterceptors(
       ) {
         const flight = {
           revision: session.sessionRevision,
-          promise: dependencies.refresh(),
+          promise: store
+            .dispatch(refreshAuth())
+            .unwrap()
+            .then(({ accessToken }) => accessToken),
         };
         flight.promise = flight.promise.finally(() => {
           if (refreshFlight === flight) refreshFlight = null;
@@ -74,12 +74,12 @@ export function installAuthInterceptors(
       try {
         await refreshFlight.promise;
       } catch (refreshError) {
-        if (dependencies.getSession().sessionRevision === config.authRevision) {
-          dependencies.clearSession();
+        if (store.getState().auth.sessionRevision === config.authRevision) {
+          store.dispatch(clearSession());
         }
         throw refreshError;
       }
-      const current = dependencies.getSession();
+      const current = store.getState().auth;
       if (
         current.sessionRevision !== config.authRevision ||
         !current.isAuth ||
@@ -87,25 +87,12 @@ export function installAuthInterceptors(
       ) {
         throw new Error("Account session changed during refresh");
       }
-      return client.request(config);
+      return apiClient.request(config);
     },
   );
 
   return () => {
-    client.interceptors.request.eject(requestId);
-    client.interceptors.response.eject(responseId);
+    apiClient.interceptors.request.eject(requestId);
+    apiClient.interceptors.response.eject(responseId);
   };
-}
-
-export function setupAuthInterceptors(): () => void {
-  return installAuthInterceptors(apiClient, {
-    getSession: () => store.getState().auth,
-    refresh: async () => {
-      const result = await store.dispatch(refreshAuth()).unwrap();
-      return result.accessToken;
-    },
-    clearSession: () => {
-      store.dispatch(clearSession());
-    },
-  });
 }

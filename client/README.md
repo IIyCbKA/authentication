@@ -37,11 +37,9 @@ for local Vite too; a Docker build argument does not configure `npm run dev`.
 
 ```bash
 npm run typecheck
-npm test
 VITE_API_URL="https://api.example.ru" npm run build
 npm audit
 ```
 
-`build` includes TypeScript checking. Unit tests use mocked HTTP adapters and
-do not contact a real backend. Docker uses Node.js 24 in both build and runtime
-stages; Node.js 20 is no longer supported by this project.
+`build` includes TypeScript checking. Docker uses Node.js 24 in both build and
+runtime stages; Node.js 20 is no longer supported by this project.

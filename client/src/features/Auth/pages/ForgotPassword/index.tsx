@@ -26,8 +26,8 @@ export default function ForgotPassword(): React.ReactElement {
     if (error) setError(undefined);
   };
 
-  const onSubmit: (e: React.FormEvent) => void = async (
-    e: React.FormEvent,
+  const onSubmit: React.SubmitEventHandler<HTMLFormElement> = async (
+    e,
   ): Promise<void> => {
     e.preventDefault();
 

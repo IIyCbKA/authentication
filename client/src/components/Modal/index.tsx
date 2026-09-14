@@ -74,6 +74,20 @@ function ModalInner(
     rootPointerDown?.(e);
   };
 
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || e.defaultPrevented || e.isComposing) return;
+
+      e.preventDefault();
+      onClose();
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isOpen, onClose]);
+
   return createPortal(
     <CSSTransition
       nodeRef={innerRef}

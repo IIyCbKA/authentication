@@ -54,8 +54,8 @@ export default function SignIn(): React.ReactElement {
     else if (errs.password) passwordRef.current?.focus();
   };
 
-  const onSubmit: (e: React.FormEvent) => void = async (
-    e: React.FormEvent,
+  const onSubmit: React.SubmitEventHandler<HTMLFormElement> = async (
+    e,
   ): Promise<void> => {
     e.preventDefault();
 

@@ -69,8 +69,8 @@ export default function ResetPassword(): React.ReactElement {
       passwordConfirmationRef.current?.focus();
   };
 
-  const onSubmit: (e: React.FormEvent) => void = async (
-    e: React.FormEvent,
+  const onSubmit: React.SubmitEventHandler<HTMLFormElement> = async (
+    e,
   ): Promise<void> => {
     e.preventDefault();
 

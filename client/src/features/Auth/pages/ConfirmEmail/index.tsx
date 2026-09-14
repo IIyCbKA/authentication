@@ -26,8 +26,8 @@ export default function ConfirmEmail(): React.ReactElement {
     if (error) setError(undefined);
   };
 
-  const onSubmit: (e: React.FormEvent) => void = async (
-    e: React.FormEvent,
+  const onSubmit: React.SubmitEventHandler<HTMLFormElement> = async (
+    e,
   ): Promise<void> => {
     e.preventDefault();
 
@@ -74,7 +74,7 @@ export default function ConfirmEmail(): React.ReactElement {
           {CONFIRM_BUTTON_TEXT}
         </Button>
       </form>
-      <ActionBar />
+      <ActionBar isDisabled={isProcessing} />
     </div>
   );
 }

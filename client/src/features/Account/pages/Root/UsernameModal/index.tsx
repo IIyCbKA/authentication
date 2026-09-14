@@ -37,8 +37,8 @@ export default function UsernameModal({
     setError(undefined);
   };
 
-  const onSubmit: (e: React.FormEvent) => void = async (
-    e: React.FormEvent,
+  const onSubmit: React.SubmitEventHandler<HTMLFormElement> = async (
+    e,
   ): Promise<void> => {
     e.preventDefault();
 
@@ -70,6 +70,7 @@ export default function UsernameModal({
       <form className={styles.modalContent} onSubmit={onSubmit} noValidate>
         <Input fullWidth disabled onlyDisabled value={username} />
         <Input
+          autoFocus
           fullWidth
           ref={newUsernameRef}
           name={"newUsername"}
