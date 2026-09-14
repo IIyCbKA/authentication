@@ -31,22 +31,14 @@ export function setupAuthNavigation() {
 
   startAppListening({
     matcher: isAnyOf(logout.fulfilled, deleteAccount.fulfilled, clearSession),
-    effect: (action, { getOriginalState }) => {
-      if (
-        (logout.fulfilled.match(action) ||
-          deleteAccount.fulfilled.match(action)) &&
-        getOriginalState().auth.authRequestId !== action.meta.requestId
-      )
-        return;
+    effect: () => {
       router.navigate(PATHS.SIGN_IN, { replace: true });
     },
   });
 
   startAppListening({
     actionCreator: loginUser.fulfilled,
-    effect: (action, { getOriginalState }) => {
-      if (getOriginalState().auth.authRequestId !== action.meta.requestId)
-        return;
+    effect: (action) => {
       if (action.payload.isAuthenticated)
         router.navigate(PATHS.DASHBOARD, { replace: true });
       else router.navigate(PATHS.EMAIL_CONFIRM);
@@ -55,9 +47,7 @@ export function setupAuthNavigation() {
 
   startAppListening({
     actionCreator: registerUser.fulfilled,
-    effect: (action, { getOriginalState }) => {
-      if (getOriginalState().auth.authRequestId !== action.meta.requestId)
-        return;
+    effect: () => {
       router.navigate(PATHS.EMAIL_CONFIRM);
     },
   });
@@ -71,18 +61,14 @@ export function setupAuthNavigation() {
 
   startAppListening({
     actionCreator: emailConfirm.fulfilled,
-    effect: (action, { getOriginalState }) => {
-      if (getOriginalState().auth.authRequestId !== action.meta.requestId)
-        return;
+    effect: () => {
       router.navigate(PATHS.DASHBOARD, { replace: true });
     },
   });
 
   startAppListening({
     actionCreator: passwordResetConfirm.fulfilled,
-    effect: (action, { getOriginalState }) => {
-      if (getOriginalState().auth.authRequestId !== action.meta.requestId)
-        return;
+    effect: () => {
       router.navigate(PATHS.DASHBOARD, { replace: true });
     },
   });

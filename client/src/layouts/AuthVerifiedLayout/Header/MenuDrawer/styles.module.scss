@@ -1,19 +1,17 @@
 @use "@/shared/styles/breakpoints" as breakpoints;
 
-@layer utils {
-  .defaultBlockButton {
-    padding: 6px 0;
-    color: inherit;
-    justify-content: flex-start;
-    font: var(--text-semibold-medium);
-
-    &:hover {
-      color: var(--text-color);
-    }
-  }
-}
-
 @layer overrides {
+    .defaultBlockButton {
+      padding: 6px 0;
+      color: inherit;
+      justify-content: flex-start;
+      font: var(--text-semibold-medium);
+
+      &:hover {
+        color: var(--text-color);
+      }
+    }
+
   .drawerContent {
     display: flex;
     flex-direction: column;

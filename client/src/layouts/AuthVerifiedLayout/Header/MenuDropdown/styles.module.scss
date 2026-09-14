@@ -1,14 +1,12 @@
 @use "@/shared/styles/breakpoints" as breakpoints;
 
-@layer utils {
+@layer overrides {
   .dropdownToggle {
     color: inherit;
     font: inherit;
     padding: 6px 0;
   }
-}
 
-@layer overrides {
   .dropdownContent {
     top: 36px;
     right: -12px;

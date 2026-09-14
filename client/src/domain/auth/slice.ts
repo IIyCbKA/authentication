@@ -31,7 +31,6 @@ const commonLogout = (state: AuthState) => {
   state.isAuth = false;
   state.status = "idle";
   state.refreshRequestId = null;
-  state.authRequestId = null;
   state.sessionRevision += 1;
 };
 
@@ -44,7 +43,6 @@ const authSlice = createSlice({
     status: "idle",
     sessionRevision: 0,
     refreshRequestId: null,
-    authRequestId: null,
   } as AuthState,
   reducers: {
     clearSession: commonLogout,
@@ -74,10 +72,7 @@ const authSlice = createSlice({
       })
       .addCase(refreshAuth.rejected, (state, action) => {
         if (state.refreshRequestId !== action.meta.requestId) return;
-        const authRequestId = state.authRequestId;
         commonLogout(state);
-        state.authRequestId = authRequestId;
-        if (authRequestId) state.status = "loading";
       });
 
     builder
@@ -90,11 +85,10 @@ const authSlice = createSlice({
           logout.pending,
           deleteAccount.pending,
         ),
-        (state, action) => {
+        (state) => {
           // A previous refresh must not replace a newer login or resurrect logout
           state.sessionRevision += 1;
           state.refreshRequestId = null;
-          state.authRequestId = action.meta.requestId;
           state.status = "loading";
         },
       )
@@ -106,20 +100,15 @@ const authSlice = createSlice({
           passwordResetConfirm.fulfilled,
         ),
         (state, action) => {
-          if (state.authRequestId !== action.meta.requestId) return;
           commonFulfilled(state, action);
           // Also invalidate a refresh started while this auth request was pending
           state.sessionRevision += 1;
           state.refreshRequestId = null;
-          state.authRequestId = null;
         },
       )
       .addMatcher(
         isAnyOf(logout.fulfilled, deleteAccount.fulfilled),
-        (state, action) => {
-          if (state.authRequestId !== action.meta.requestId) return;
-          commonLogout(state);
-        },
+        commonLogout,
       )
       .addMatcher(
         isAnyOf(
@@ -130,9 +119,7 @@ const authSlice = createSlice({
           logout.rejected,
           deleteAccount.rejected,
         ),
-        (state, action) => {
-          if (state.authRequestId !== action.meta.requestId) return;
-          state.authRequestId = null;
+        (state) => {
           state.status = "failed";
         },
       );

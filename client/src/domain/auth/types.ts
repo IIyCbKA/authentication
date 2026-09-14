@@ -50,7 +50,6 @@ export type AuthState = {
   status: AuthStatus;
   sessionRevision: number;
   refreshRequestId: string | null;
-  authRequestId: string | null;
 };
 
 /*

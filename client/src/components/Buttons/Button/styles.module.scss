@@ -18,6 +18,10 @@
       cursor: not-allowed;
       color: var(--grey-color-75);
     }
+
+    &.loading {
+      color: transparent;
+    }
   }
 
   .buttonWithAdornment {
@@ -130,15 +134,9 @@
     justify-content: center;
     inset: 0;
     color: var(--grey-color-75);
-  }
-}
 
-@layer overrides {
-  .loading {
-    color: transparent;
-  }
-
-  .spinner {
-    height: 60%;
+    .spinner {
+      height: 60%;
+    }
   }
 }
