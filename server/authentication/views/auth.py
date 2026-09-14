@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
@@ -5,11 +6,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from accounts.serializers import UserReadSerializer
+from core.schema import ErrorResponseSerializer, ORIGIN_PARAMETER
 from ..permissions import (
   CanUseEmailVerificationEndpoints,
   HasAllowedOrigin,
 )
 from ..serializers import (
+  AuthenticationResponseSerializer,
   EmailVerificationSerializer,
   LoginSerializer,
   PasswordResetConfirmSerializer,
@@ -52,6 +55,15 @@ class RegisterView(AuthResponseMixin, GenericAPIView):
   service_class = RegistrationService
   throttle_scope = "register"
 
+  @extend_schema(
+    summary="Register an account",
+    description=(
+      "Returns a pending access token (isAuthenticated=false), without a refresh cookie. "
+      "Confirm the email to open a full session."
+    ),
+    parameters=[ORIGIN_PARAMETER],
+    responses={201: AuthenticationResponseSerializer, "4XX": ErrorResponseSerializer},
+  )
   def post(self, request) -> Response:
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -69,6 +81,15 @@ class EmailConfirmView(AuthResponseMixin, GenericAPIView):
   service_class = EmailVerificationService
   throttle_scope = "email_confirm"
 
+  @extend_schema(
+    summary="Confirm email",
+    description=(
+      "Requires the pending access token. "
+      "Returns a full session and sets the refresh cookie."
+    ),
+    parameters=[ORIGIN_PARAMETER],
+    responses={200: AuthenticationResponseSerializer, "4XX": ErrorResponseSerializer},
+  )
   def post(self, request) -> Response:
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -86,6 +107,15 @@ class ResendCodeView(APIView):
   service_class = EmailVerificationService
   throttle_scope = "resend_code"
 
+  @extend_schema(
+    summary="Resend the email verification code",
+    description=(
+      "Requires the pending access token. "
+      "Sends a new code and invalidates the previous one."
+    ),
+    request=None,
+    responses={202: None, "4XX": ErrorResponseSerializer},
+  )
   def post(self, request) -> Response:
     self.service_class().send_code(request.user)
     return Response(status=status.HTTP_202_ACCEPTED)
@@ -98,6 +128,15 @@ class LoginView(AuthResponseMixin, GenericAPIView):
   service_class = LoginService
   throttle_scope = "login"
 
+  @extend_schema(
+    summary="Log in",
+    description=(
+      "Accepts a username or email. Unverified accounts receive a pending access token "
+      "without a refresh cookie; full sessions receive both."
+    ),
+    parameters=[ORIGIN_PARAMETER],
+    responses={200: AuthenticationResponseSerializer, "4XX": ErrorResponseSerializer},
+  )
   def post(self, request) -> Response:
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -118,6 +157,17 @@ class RefreshView(AuthResponseMixin, APIView):
   service_class = TokenService
   throttle_scope = "refresh"
 
+  @extend_schema(
+    summary="Refresh the session",
+    description=(
+      "Requires the HttpOnly refresh_token cookie, sent automatically by the browser. "
+      "Rotates the cookie and returns a new access token. Reusing the previous refresh "
+      "token within the grace window returns its successor session."
+    ),
+    parameters=[ORIGIN_PARAMETER],
+    request=None,
+    responses={200: AuthenticationResponseSerializer, "4XX": ErrorResponseSerializer},
+  )
   def post(self, request) -> Response:
     raw_refresh = self.cookie_service_class().read(request)
     session = self.service_class().rotate(raw_refresh)
@@ -130,6 +180,16 @@ class LogoutView(APIView):
   cookie_service_class = CookieService
   service_class = TokenService
 
+  @extend_schema(
+    summary="Log out",
+    description=(
+      "Revokes the refresh token from the cookie and clears the cookie. "
+      "Succeeds even when the cookie is absent. Discard the access token on the client."
+    ),
+    parameters=[ORIGIN_PARAMETER],
+    request=None,
+    responses={200: None, "4XX": ErrorResponseSerializer},
+  )
   def post(self, request) -> Response:
     cookie_service = self.cookie_service_class()
     self.service_class().hard_revoke(cookie_service.read(request))
@@ -145,6 +205,11 @@ class PasswordResetRequestView(GenericAPIView):
   service_class = PasswordResetService
   throttle_scope = "reset_password"
 
+  @extend_schema(
+    summary="Request a password reset email",
+    description="Returns the same response whether or not the email belongs to an account.",
+    responses={202: None, "4XX": ErrorResponseSerializer},
+  )
   def post(self, request) -> Response:
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -159,6 +224,11 @@ class PasswordResetConfirmView(AuthResponseMixin, GenericAPIView):
   service_class = PasswordResetService
   throttle_scope = "password_reset_confirm"
 
+  @extend_schema(
+    summary="Set a new password using a reset link",
+    parameters=[ORIGIN_PARAMETER],
+    responses={200: AuthenticationResponseSerializer, "4XX": ErrorResponseSerializer},
+  )
   def post(self, request) -> Response:
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -179,6 +249,10 @@ class PasswordResetValidateView(GenericAPIView):
   service_class = PasswordResetService
   throttle_scope = "validate_reset_token"
 
+  @extend_schema(
+    summary="Validate a password reset link",
+    responses={200: None, "4XX": ErrorResponseSerializer},
+  )
   def post(self, request) -> Response:
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)

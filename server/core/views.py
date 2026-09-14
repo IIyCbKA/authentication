@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
@@ -8,5 +9,6 @@ from rest_framework.request import Request
 class Health(APIView):
   permission_classes = [AllowAny]
 
+  @extend_schema(summary="Health check", responses={200: None})
   def get(self, request: Request) -> Response:
     return Response(status=status.HTTP_200_OK)

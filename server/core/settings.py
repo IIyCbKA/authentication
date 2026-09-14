@@ -144,6 +144,7 @@ INSTALLED_APPS = [
   "django.contrib.messages",
   "django.contrib.staticfiles",
   "rest_framework",
+  "drf_spectacular",
   "rest_framework_simplejwt",
   "rest_framework_simplejwt.token_blacklist",
   "corsheaders",
@@ -151,6 +152,7 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
+  "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
   "EXCEPTION_HANDLER": "core.exception_handlers.custom_exception_handler",
   "DEFAULT_AUTHENTICATION_CLASSES": (
     "authentication.authentication.VersionedJWTAuthentication",
@@ -179,6 +181,26 @@ REST_FRAMEWORK = {
     "oauth_callback": "60/hour",
     "update_username": "20/minute",
   },
+}
+
+SPECTACULAR_SETTINGS = {
+  "TITLE": "Authentication API",
+  "VERSION": "1.0.0",
+  "DESCRIPTION": (
+    "Authentication, account management and OAuth. "
+    "Use Authorize with an accessToken for protected endpoints. "
+    "Account endpoints require a full session (verified email or no email). "
+    "Refresh tokens are stored in an HttpOnly cookie, not in JSON. "
+    "Cookie-changing requests require an allowed Origin header; browsers set it automatically. "
+    "API errors contain a detail message."
+  ),
+  "SERVE_INCLUDE_SCHEMA": False,
+  "SERVE_AUTHENTICATION": [],
+  "COMPONENT_SPLIT_REQUEST": True,
+  "POSTPROCESSING_HOOKS": [
+    "drf_spectacular.hooks.postprocess_schema_enums",
+    "drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields",
+  ],
 }
 
 SIMPLE_JWT = {

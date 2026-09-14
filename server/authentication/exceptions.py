@@ -102,3 +102,12 @@ class OAuthTokenExchangeError(AuthenticationServiceError):
   status_code = status.HTTP_502_BAD_GATEWAY
   default_detail = "Failed to exchange OAuth authorization code"
   default_code = "oauth_token_exchange_failed"
+
+
+class OAuthAuthorizationError(AuthenticationServiceError):
+  default_detail = "OAuth authorization was not completed"
+  default_code = "oauth_authorization_failed"
+
+  def __init__(self, next_url: str | None):
+    super().__init__()
+    self.next_url = next_url

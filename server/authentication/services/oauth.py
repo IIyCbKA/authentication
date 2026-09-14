@@ -26,6 +26,7 @@ from authentication.exceptions import (
   OAuthRedirectMismatch,
   OAuthStateError,
   OAuthTokenExchangeError,
+  OAuthAuthorizationError,
 )
 
 from .providers import ProviderProfile, fetch_provider_profile
@@ -269,7 +270,9 @@ class OAuthService:
       raise OAuthRedirectMismatch("OAuth redirect URI does not match")
 
     if request.query_params.get("error"):
-      raise OAuthStateError("OAuth authorization was not completed")
+      raise OAuthAuthorizationError(
+        next_url=cls._allowed_next_url(state_data.get("next_url")),
+      )
 
     code = request.query_params.get("code")
     code_verifier = state_data.get("code_verifier")

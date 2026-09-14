@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.request import Request
@@ -6,6 +7,7 @@ from rest_framework.response import Response
 
 from authentication.permissions import HasAllowedOrigin, IsVerifiedOrEmailLess
 from authentication.services.tokens import CookieService
+from core.schema import ErrorResponseSerializer, ORIGIN_PARAMETER
 
 from ..serializers import (
   UpdateUsernameSerializer,
@@ -23,9 +25,22 @@ class CurrentAccountView(GenericAPIView):
   service_class = AccountService
   cookie_service_class = CookieService
 
+  @extend_schema(
+    summary="Get the current account",
+    responses={200: UserReadSerializer, "4XX": ErrorResponseSerializer},
+  )
   def get(self, request: Request) -> Response:
     return Response(self.get_serializer(request.user).data)
 
+  @extend_schema(
+    summary="Delete the current account",
+    description=(
+      "Requires a full session (verified email or no email). Permanently deletes "
+      "the account, revokes its refresh tokens and clears the cookie."
+    ),
+    parameters=[ORIGIN_PARAMETER],
+    responses={204: None, "4XX": ErrorResponseSerializer},
+  )
   def delete(self, request: Request) -> Response:
     self.service_class().delete(request.user)
     response = Response(status=status.HTTP_204_NO_CONTENT)
@@ -38,6 +53,10 @@ class UpdateUsernameView(GenericAPIView):
   permission_classes = [IsVerifiedOrEmailLess]
   throttle_scope = "update_username"
 
+  @extend_schema(
+    summary="Update the username",
+    responses={200: UsernameUpdateResponseSerializer, "4XX": ErrorResponseSerializer},
+  )
   def patch(self, request: Request) -> Response:
     serializer = self.get_serializer(
       data=request.data,
