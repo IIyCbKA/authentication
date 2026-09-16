@@ -27,7 +27,7 @@ if [[ -z "$("${COMPOSE[@]}" ps --status running --quiet nginx)" ]]; then
   exit 1
 fi
 
-# Download before stopping nginx so a registry failure causes no downtime.
+# Download before stopping nginx so a registry failure causes no downtime
 docker pull "$CERTBOT_IMAGE"
 
 restore_nginx() {
@@ -44,7 +44,7 @@ trap restore_nginx EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 
-# Standalone needs port 80; PostgreSQL, Redis and application workers stay up.
+# Standalone needs port 80; PostgreSQL, Redis and application workers stay up
 "${COMPOSE[@]}" stop nginx
 docker run --rm -p 80:80 \
   -v /etc/letsencrypt:/etc/letsencrypt \

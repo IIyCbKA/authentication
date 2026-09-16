@@ -32,6 +32,7 @@ x-shared-environment: &shared-environment
 
 x-shared-configuration: &shared-configuration
   image: authentication_server:latest
+  pull_policy: never
   restart: unless-stopped
   environment:
     <<: *shared-environment

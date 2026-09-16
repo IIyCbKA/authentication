@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 1 ]]; then
-  echo "Usage: bash scripts/syn-def.sh EXTERNAL_INTERFACE (for example, eth0)" >&2
+if [[ $# -gt 1 ]]; then
+  echo "Usage: bash scripts/syn-def.sh [EXTERNAL_INTERFACE]" >&2
   exit 2
 fi
 
-EXTERNAL_INTERFACE=$1
+EXTERNAL_INTERFACE=${1:-$(ip route show default | awk '/default/ {print $5; exit}')}
+
+if [[ -z "$EXTERNAL_INTERFACE" ]]; then
+  echo "Could not detect external network interface." >&2
+  exit 1
+fi
+
 for tool in ip sysctl iptables sudo; do
   if ! command -v "$tool" >/dev/null; then
     echo "Missing $tool. This script requires Linux with Docker's iptables backend." >&2
