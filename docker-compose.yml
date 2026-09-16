@@ -1,37 +1,40 @@
+x-shared-environment: &shared-environment
+  DEBUG: "False"
+  SECRET_KEY: ${SECRET_KEY}
+  DJANGO_ADMIN_URL: ${DJANGO_ADMIN_URL}
+
+  POSTGRES_DB: ${POSTGRES_DB}
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_HOST: ${POSTGRES_HOST}
+  POSTGRES_PORT: ${POSTGRES_PORT}
+
+  DJANGO_HOST: ${DJANGO_HOST}
+  DJANGO_ADMIN_IP: ${DJANGO_ADMIN_IP}
+  CLIENT_URL: ${CLIENT_URL}
+
+  CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+  CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+  CACHE_BROKER_URL: ${CACHE_BROKER_URL}
+
+  EMAIL_API_KEY: ${EMAIL_API_KEY}
+
+  REFRESH_GRACE_SECRET: ${REFRESH_GRACE_SECRET}
+
+  GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+  GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+  X_CLIENT_ID: ${X_CLIENT_ID}
+  X_CLIENT_SECRET: ${X_CLIENT_SECRET}
+  GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+  GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+  YANDEX_CLIENT_ID: ${YANDEX_CLIENT_ID}
+  YANDEX_CLIENT_SECRET: ${YANDEX_CLIENT_SECRET}
+
 x-shared-configuration: &shared-configuration
-  image: iiycbka/habit_server:latest
+  image: authentication_server:latest
   restart: unless-stopped
   environment:
-    DEBUG: "False"
-    SECRET_KEY: ${SECRET_KEY}
-    DJANGO_ADMIN_URL: ${DJANGO_ADMIN_URL}
-
-    POSTGRES_DB: ${POSTGRES_DB}
-    POSTGRES_USER: ${POSTGRES_USER}
-    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    POSTGRES_HOST: ${POSTGRES_HOST}
-    POSTGRES_PORT: ${POSTGRES_PORT}
-
-    DJANGO_HOST: ${DJANGO_HOST}
-    DJANGO_ADMIN_IP: ${DJANGO_ADMIN_IP}
-    CLIENT_URL: ${CLIENT_URL}
-
-    CELERY_BROKER_URL: ${CELERY_BROKER_URL}
-    CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
-    CACHE_BROKER_URL: ${CACHE_BROKER_URL}
-
-    EMAIL_API_KEY: ${EMAIL_API_KEY}
-
-    REFRESH_GRACE_SECRET: ${REFRESH_GRACE_SECRET}
-
-    GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
-    GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
-    X_CLIENT_ID: ${X_CLIENT_ID}
-    X_CLIENT_SECRET: ${X_CLIENT_SECRET}
-    GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
-    GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
-    YANDEX_CLIENT_ID: ${YANDEX_CLIENT_ID}
-    YANDEX_CLIENT_SECRET: ${YANDEX_CLIENT_SECRET}
+    <<: *shared-environment
   depends_on:
     db:
       condition: service_healthy
@@ -54,8 +57,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_PORT: ${POSTGRES_PORT}
     volumes:
       - postgres_data:/var/lib/postgresql:rw
     networks:
@@ -68,6 +69,12 @@ services:
 
   server:
     <<: *shared-configuration
+    build:
+      context: ./server
+    environment:
+      <<: *shared-environment
+      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
     command: "gunicorn"
     networks:
       - backend
@@ -81,7 +88,10 @@ services:
       - static_data:/app/static
 
   client:
-    image: iiycbka/habit_client:latest
+    build:
+      context: ./client
+      args:
+        VITE_API_URL: ${VITE_API_URL}
     restart: unless-stopped
     networks:
       - frontend

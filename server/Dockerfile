@@ -10,6 +10,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements-base.txt requirements-prod.txt ./
+
 RUN python -m pip wheel --wheel-dir /wheels -r requirements-prod.txt
 
 
@@ -28,6 +29,7 @@ RUN apt-get update \
 
 COPY --from=builder /wheels /wheels
 COPY requirements-base.txt requirements-prod.txt ./
+
 RUN python -m pip install --no-index --find-links=/wheels -r requirements-prod.txt \
     && rm -rf /wheels
 
@@ -48,21 +50,40 @@ case \"$1\" in \
     gunicorn) \
         shift; \
         python manage.py migrate --noinput; \
+        if ! python manage.py shell -c '\
+from django.contrib.auth import get_user_model; \
+import os, sys; \
+User = get_user_model(); \
+sys.exit(0 if User.objects.filter(username=os.environ[\"DJANGO_SUPERUSER_USERNAME\"]).exists() else 1)' \
+        ; then \
+            python manage.py createsuperuser --noinput; \
+        fi; \
         python manage.py collectstatic --noinput; \
         exec gunicorn core.wsgi:application \
             --bind 0.0.0.0:8000 \
             --workers \"${GUNICORN_WORKERS:-4}\" \
             --log-level \"${GUNICORN_LOG_LEVEL:-info}\" \
-            --access-logfile - --error-logfile - \"$@\" ;; \
+            --access-logfile - \
+            --error-logfile - \
+            \"$@\" \
+        ;; \
     celery_worker) \
         shift; \
         exec celery -A core worker \
-            --loglevel \"${CELERY_LOG_LEVEL:-info}\" \"$@\" ;; \
+            --loglevel \"${CELERY_LOG_LEVEL:-info}\" \
+            \"$@\" \
+        ;; \
     celery_beat) \
         shift; \
         exec celery -A core beat \
             --loglevel \"${CELERY_LOG_LEVEL:-info}\" \
-            --schedule /data/celerybeat-schedule --pidfile= \"$@\" ;; \
-    *) exec \"$@\" ;; \
+            --schedule /data/celerybeat-schedule \
+            --pidfile= \
+            \"$@\" \
+        ;; \
+    *) \
+        exec \"$@\" \
+        ;; \
 esac", "--"]
+
 CMD ["gunicorn"]
