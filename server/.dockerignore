@@ -18,10 +18,6 @@ Dockerfile
 .env*
 **/.env*
 
-# update script
-update.sh
-**/update.sh
-
 # local TLS material and editor files
 certs
 **/certs

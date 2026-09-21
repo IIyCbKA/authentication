@@ -11,8 +11,6 @@
 
 .env*
 **/.env*
-update.sh
-**/update.sh
 certs
 **/certs
 letsencrypt
