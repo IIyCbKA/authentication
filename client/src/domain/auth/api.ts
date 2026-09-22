@@ -18,9 +18,16 @@ import type {
   OAuthProvider,
 } from "./types";
 
+const mockAuth =
+  import.meta.env.DEV && import.meta.env.VITE_MOCK_API === "true"
+    ? import("./mock")
+    : null;
+
 export async function login(
   creds: LoginCreds,
 ): Promise<CommonFulfilledResponse> {
+  if (mockAuth) return (await mockAuth).login();
+
   const { data } = await sendSessionRequest<CommonFulfilledResponse>(
     publicClient,
     {
@@ -61,6 +68,8 @@ export async function emailConfirm(
 }
 
 export async function refresh(): Promise<CommonFulfilledResponse> {
+  if (mockAuth) return (await mockAuth).refresh();
+
   const { data } = await sendSessionRequest<CommonFulfilledResponse>(
     refreshClient,
     {
@@ -72,6 +81,8 @@ export async function refresh(): Promise<CommonFulfilledResponse> {
 }
 
 export async function logout(): Promise<void> {
+  if (mockAuth) return (await mockAuth).logout();
+
   await sendSessionRequest(publicClient, {
     method: "post",
     url: ENDPOINT.LOGOUT,
