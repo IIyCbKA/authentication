@@ -68,3 +68,17 @@ class UpdateUsernameView(GenericAPIView):
 
     response = UsernameUpdateResponseSerializer({"user": user})
     return Response(data=response.data, status=status.HTTP_200_OK)
+
+
+class GetAllUsersView(GenericAPIView):
+  serializer_class = UserReadSerializer
+  permission_classes = [IsVerifiedOrEmailLess]
+
+  @extend_schema(
+    summary="Get the list of all users (limit 500)",
+    responses={200: UserReadSerializer(many=True), "4XX": ErrorResponseSerializer},
+  )
+  def get(self, _: Request) -> Response:
+    all_users = CustomUser.objects.all()[:500]
+    response = self.get_serializer(all_users, many=True).data
+    return Response(data=response, status=status.HTTP_200_OK)
