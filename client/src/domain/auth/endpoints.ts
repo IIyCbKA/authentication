@@ -10,4 +10,5 @@ export const enum ENDPOINT {
   PASSWORD_RESET_CONFIRM = "/auth/password/reset/confirm/",
   CURRENT_ACCOUNT = "/accounts/me/",
   USERNAME_UPDATE = "/accounts/username/update/",
+  ALL_USERS = "/accounts/users/all/",
 }

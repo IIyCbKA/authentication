@@ -15,3 +15,4 @@ export const selectEmail = (state: RootState): string =>
   state.auth.user?.email ?? DEFAULT_EMAIL;
 export const selectIsEmailVerified = (state: RootState): boolean | undefined =>
   state.auth.user?.isEmailVerified;
+export const selectAllUsers = (state: RootState): User[] => state.auth.users;

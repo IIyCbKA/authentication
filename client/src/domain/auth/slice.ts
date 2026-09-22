@@ -9,6 +9,7 @@ import {
   usernameUpdate,
   fetchCurrentAccount,
   deleteAccount,
+  fetchAllUsers,
 } from "./thunks";
 import type { AuthState, CommonFulfilledResponse } from "./types";
 import { SLICE_NAME } from "./constants";
@@ -32,6 +33,7 @@ const commonLogout = (state: AuthState) => {
   state.status = "idle";
   state.refreshRequestId = null;
   state.sessionRevision += 1;
+  state.users = [];
 };
 
 const authSlice = createSlice({
@@ -43,6 +45,7 @@ const authSlice = createSlice({
     status: "idle",
     sessionRevision: 0,
     refreshRequestId: null,
+    users: [],
   } as AuthState,
   reducers: {
     clearSession: commonLogout,
@@ -58,6 +61,9 @@ const authSlice = createSlice({
         if (state.user?.id === action.payload.id) {
           state.user = action.payload;
         }
+      })
+      .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        state.users = action.payload;
       })
       .addCase(refreshAuth.pending, (state, action) => {
         state.refreshRequestId = action.meta.requestId;

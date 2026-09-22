@@ -1,0 +1,26 @@
+.layer {
+  background-color: white;
+  margin: 40px;
+  padding: 20px;
+  border-radius: 8px;
+  color: black;
+}
+
+.emptyList {
+  margin: 10px;
+}
+
+.usersList {
+  display: grid;
+  gap: 24px;
+
+  li {
+    margin: 0 10px;
+  }
+}
+
+@layer overrides {
+  .divider {
+    margin: 16px 0;
+  }
+}

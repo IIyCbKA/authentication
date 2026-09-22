@@ -11,6 +11,7 @@ import {
   getCurrentAccount,
   deleteCurrentAccount,
   startOAuthLink,
+  getAllUsers,
 } from "./api";
 import { createAppAsyncThunk } from "@/store/apiThunk";
 import { SLICE_NAME } from "./constants";
@@ -56,4 +57,8 @@ export const deleteAccount = createAppAsyncThunk(
 export const linkOAuthAccount = createAppAsyncThunk(
   `${SLICE_NAME}/oauth/link`,
   startOAuthLink,
+);
+export const fetchAllUsers = createAppAsyncThunk(
+  `${SLICE_NAME}/account/users/all`,
+  getAllUsers,
 );

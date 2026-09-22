@@ -164,3 +164,8 @@ export async function startOAuthLink({
   );
   return data;
 }
+
+export async function getAllUsers(): Promise<User[]> {
+  const { data } = await apiClient.get<User[]>(ENDPOINT.ALL_USERS);
+  return data;
+}

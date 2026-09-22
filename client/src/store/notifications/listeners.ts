@@ -11,6 +11,7 @@ import {
   deleteAccount,
   linkOAuthAccount,
   logout,
+  fetchAllUsers,
 } from "@/domain/auth/thunks";
 import { pushNotification } from "@/store/notifications/slice";
 import { startAppListening } from "@/store/listener";
@@ -27,6 +28,7 @@ const isNotifiableRejection = isAnyOf(
   deleteAccount.rejected,
   linkOAuthAccount.rejected,
   logout.rejected,
+  fetchAllUsers.rejected,
 );
 
 // Business events are connected to generic UI state at the application layer
