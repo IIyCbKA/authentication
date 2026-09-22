@@ -3,3 +3,9 @@
   margin-bottom: 16px;
   font: var(--title-small);
 }
+
+@layer overrides {
+  .accountButton {
+    min-width: 80px;
+  }
+}
